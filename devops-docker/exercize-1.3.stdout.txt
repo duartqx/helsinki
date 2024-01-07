@@ -1,0 +1,48 @@
+helsinki ↪ main $ docker run -d -it --name helsinki-docker devopsdockeruh/simple-web-service:ubuntu
+d563f8d719681c0c046933f1e98c803942192f3c164ef75f146df29ddeb15f96
+
+helsinki ↪ main $ docker attach helsinki-docker
+Wrote text to /usr/src/app/text.log
+Wrote text to /usr/src/app/text.log
+Wrote text to /usr/src/app/text.log
+ls
+Wrote text to /usr/src/app/text.log
+Wrote text to /usr/src/app/text.log
+Wrote text to /usr/src/app/text.log
+Wrote text to /usr/src/app/text.log
+Wrote text to /usr/src/app/text.log
+Wrote text to /usr/src/app/text.log
+Wrote text to /usr/src/app/text.log
+Wrote text to /usr/src/app/text.log
+Wrote text to /usr/src/app/text.log
+Wrote text to /usr/src/app/text.log
+
+^Chelsinki ↪ main $ docker exec -it helsinki-docker bash
+Error response from daemon: Container d563f8d719681c0c046933f1e98c803942192f3c164ef75f146df29ddeb15f96 is not running
+
+helsinki ↪ main $ docker start helsinki-docker
+helsinki-docker
+
+helsinki ↪ main $ docker exec -it helsinki-docker bash
+root@d563f8d71968:/usr/src/app# ls
+server  text.log
+root@d563f8d71968:/usr/src/app# tail -f text.log
+2024-01-07 01:30:56 +0000 UTC
+2024-01-07 01:32:06 +0000 UTC
+2024-01-07 01:32:08 +0000 UTC
+2024-01-07 01:32:10 +0000 UTC
+2024-01-07 01:32:12 +0000 UTC
+2024-01-07 01:32:14 +0000 UTC
+Secret message is: 'You can find the source code here: https://github.com/docker-hy'
+2024-01-07 01:32:16 +0000 UTC
+2024-01-07 01:32:18 +0000 UTC
+2024-01-07 01:32:20 +0000 UTC
+2024-01-07 01:32:22 +0000 UTC
+2024-01-07 01:32:24 +0000 UTC
+Secret message is: 'You can find the source code here: https://github.com/docker-hy'
+2024-01-07 01:32:26 +0000 UTC
+2024-01-07 01:32:28 +0000 UTC
+2024-01-07 01:32:30 +0000 UTC
+2024-01-07 01:32:32 +0000 UTC
+
+(Answer -> Secret message is: 'You can find the source code here: https://github.com/docker-hy')
