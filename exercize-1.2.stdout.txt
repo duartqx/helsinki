@@ -1,0 +1,64 @@
+helsinki ↪ main $ docker ps -as
+CONTAINER ID   IMAGE      COMMAND                  CREATED         STATUS                     PORTS                                       NAMES            SIZE
+149008e8c695   ubuntu     "/bin/bash"              6 minutes ago   Exited (0) 4 minutes ago                                               nifty_haibt      0B (virtual 77.8MB)
+f9a832e86e72   nginx      "/docker-entrypoint.…"   8 minutes ago   Exited (0) 8 minutes ago                                               lucid_ishizaka   1.09kB (virtual 187MB)
+4229df7ba274   postgres   "docker-entrypoint.s…"   8 weeks ago     Up 3 minutes               0.0.0.0:5432->5432/tcp, :::5432->5432/tcp   pg               180B (virtual 417MB)
+
+helsinki ↪ main $ docker images
+REPOSITORY   TAG                      IMAGE ID       CREATED         SIZE
+ubuntu       latest                   174c8c134b2a   3 weeks ago     77.8MB
+nginx        latest                   d453dd892d93   2 months ago    187MB
+postgres     latest                   fbd1be2cbb1f   3 months ago    417MB
+jobconvo     backend-database-redis   ae18399806b4   10 months ago   27.1MB
+jobconvo     backend-database-mysql   fe48315b59da   21 months ago   435MB
+
+helsinki ↪ main $ for image in 174c8c134b2a d453dd892d93 ae18399806b4 fe48315b59da; do echo $image; done
+174c8c134b2a
+d453dd892d93
+ae18399806b4
+fe48315b59da
+
+helsinki ↪ main $ for image in 174c8c134b2a d453dd892d93 ae18399806b4 fe48315b59da; do docker image rm $image; done
+Error response from daemon: conflict: unable to delete 174c8c134b2a (must be forced) - image is being used by stopped container 149008e8c695
+Error response from daemon: conflict: unable to delete d453dd892d93 (must be forced) - image is being used by stopped container f9a832e86e72
+Untagged: jobconvo:backend-database-redis
+Deleted: sha256:ae18399806b4e116e9b07fa3c8f735dae8dcfc7f6efaf9b0f5e1bfce3e02d1ea
+Untagged: jobconvo:backend-database-mysql
+Deleted: sha256:fe48315b59da034519bf4a5bed9d33cbefab786c85cb68f1252314bd7b52e0db
+
+helsinki ↪ main $ docker container ls -a
+CONTAINER ID   IMAGE      COMMAND                  CREATED          STATUS                      PORTS                                       NAMES
+149008e8c695   ubuntu     "/bin/bash"              8 minutes ago    Exited (0) 6 minutes ago                                                nifty_haibt
+f9a832e86e72   nginx      "/docker-entrypoint.…"   10 minutes ago   Exited (0) 10 minutes ago                                               lucid_ishizaka
+4229df7ba274   postgres   "docker-entrypoint.s…"   8 weeks ago      Up 4 minutes                0.0.0.0:5432->5432/tcp, :::5432->5432/tcp   pg
+
+helsinki ↪ main $ for cont in 149008e8c695 f9a832e86e72; do docker container rm $cont; done
+149008e8c695
+f9a832e86e72
+
+helsinki ↪ main $ for image in 174c8c134b2a d453dd892d93 ae18399806b4 fe48315b59da; do docker image rm $image; done
+Untagged: ubuntu:latest
+Untagged: ubuntu@sha256:6042500cf4b44023ea1894effe7890666b0c5c7871ed83a97c36c76ae560bb9b
+Deleted: sha256:174c8c134b2a94b5bb0b37d9a2b6ba0663d82d23ebf62bd51f74a2fd457333da
+Deleted: sha256:a1360aae5271bbbf575b4057cb4158dbdfbcae76698189b55fb1039bc0207400
+Untagged: nginx:latest
+Untagged: nginx@sha256:2bdc49f2f8ae8d8dc50ed00f2ee56d00385c6f8bc8a8b320d0a294d9e3b49026
+Deleted: sha256:d453dd892d9357f3559b967478ae9cbc417b52de66b53142f6c16c8a275486b9
+Deleted: sha256:efa10324a701d6accf82a523dcaba9aadf21943e214a8879d10c13284bffcd5f
+Deleted: sha256:4178f7184379d32ddc77d881dca384ac307dedb0c42f521fe633c5a95f308cd6
+Deleted: sha256:454122e697d0fd11338a4e00fd1d20acd2eaf133544321160606c908ca395911
+Deleted: sha256:b4ad020cdacfccfc4faf3dcd7984f600391d3972063112dd2b37dfbd30105993
+Deleted: sha256:6f226612ab7aafdd91fcc90917ad3d7a667237a78785fe2309faf160559a69a7
+Deleted: sha256:9671ab29815f09e9c2552b872e0097732d4b5efb5dfdc91630853d7bf7221f1a
+Deleted: sha256:7292cf786aa89399bca4e3edd105d3b2ee0683a46ef1f5ff436c0f9d1d49e765
+Error response from daemon: No such image: ae18399806b4:latest
+Error response from daemon: No such image: fe48315b59da:latest
+
+helsinki ↪ main $ docker container ls -a
+CONTAINER ID   IMAGE      COMMAND                  CREATED       STATUS         PORTS                                       NAMES
+4229df7ba274   postgres   "docker-entrypoint.s…"   8 weeks ago   Up 5 minutes   0.0.0.0:5432->5432/tcp, :::5432->5432/tcp   pg
+helsinki ↪ main $ docker image ls -a
+REPOSITORY   TAG       IMAGE ID       CREATED        SIZE
+postgres     latest    fbd1be2cbb1f   3 months ago   417MB
+
+helsinki ↪ main $
