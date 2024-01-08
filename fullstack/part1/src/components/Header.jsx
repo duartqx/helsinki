@@ -1,8 +1,20 @@
 import React from "react"
 
 /**
+ * @typedef {Object} Part
+ * @property {string} title
+ * @property {number} quantity
+ **/
+
+/**
+ * @typedef {Object} Course
+ * @property {string} name
+ * @property {Part[]} parts
+ **/
+
+/**
  * @typedef {Object} HeaderProps
- * @property {string} course
+ * @property {Course} course
  **/
 
 /**
@@ -11,7 +23,7 @@ import React from "react"
 const Header = ({ course }) => {
 
   return (
-    <h1>{course}</h1>
+    <h1>{course.name}</h1>
   )
 }
 

@@ -7,15 +7,21 @@ import React from "react"
  **/
 
 /**
- * @typedef {Object} TotalProps
+ * @typedef {Object} Course
+ * @property {string} name
  * @property {Part[]} parts
+ **/
+
+/**
+ * @typedef {Object} TotalProps
+ * @property {Course} course
  **/
 
 /**
  * @param {TotalProps} props
 **/
-const Total = ({ parts }) => {
-  let total = parts.reduce((acc, obj) => acc + obj.quantity, 0);
+const Total = ({ course }) => {
+  let total = course.parts.reduce((acc, obj) => acc + obj.quantity, 0);
   return (
     <p>Number of exercises {total}</p>
   )
