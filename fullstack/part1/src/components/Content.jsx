@@ -17,15 +17,15 @@ const Part = ({ title, quantity }) => (
 
 /**
  * @typedef {Object} ContentProps
- * @property {PartProps[]} contentObjects
+ * @property {PartProps[]} parts
  **/
 
 /**
  * @param {ContentProps} props
  **/
-const Content = ({ contentObjects }) => (
+const Content = ({ parts }) => (
   <>
-    {contentObjects.map((obj) => (
+    {parts.map((obj) => (
       <Part title={obj.title} quantity={obj.quantity} />
     ))}
   </>

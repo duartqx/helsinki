@@ -5,8 +5,7 @@ import Total from "./components/Total";
 
 const App = () => {
   const course = "Half Stack application development";
-
-  const content = [
+  const parts = [
     {
       title: "Fundamentals of React",
       quantity: 10,
@@ -20,13 +19,11 @@ const App = () => {
       quantity: 14,
     },
   ];
-  let total = content.reduce((acc, obj) => acc + obj.quantity, 0);
-
   return (
     <div>
       <Header course={course} />
-      <Content contentObjects={content} />
-      <Total total={total} />
+      <Content parts={parts} />
+      <Total parts={parts} />
     </div>
   );
 };
