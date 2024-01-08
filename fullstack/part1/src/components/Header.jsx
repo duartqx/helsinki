@@ -1,3 +1,5 @@
+import React from "react"
+
 /**
  * @typedef {Object} HeaderProps
  * @property {string} course
@@ -12,3 +14,5 @@ const Header = ({ course }) => {
     <h1>{course}</h1>
   )
 }
+
+export default Header
