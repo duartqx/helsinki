@@ -1,14 +1,23 @@
 import React from "react";
 
 /**
- * @typedef {Object} ContentObject
+ * @typedef {Object} PartProps
  * @property {string} title
  * @property {number} quantity
  **/
 
 /**
+ * @param {PartProps} props
+ **/
+const Part = ({ title, quantity }) => (
+  <p>
+    {title} {quantity}
+  </p>
+);
+
+/**
  * @typedef {Object} ContentProps
- * @property {ContentObject[]} contentObjects
+ * @property {PartProps[]} contentObjects
  **/
 
 /**
@@ -17,9 +26,7 @@ import React from "react";
 const Content = ({ contentObjects }) => (
   <>
     {contentObjects.map((obj) => (
-      <p>
-        {obj.title} {obj.quantity}
-      </p>
+      <Part title={obj.title} quantity={obj.quantity} />
     ))}
   </>
 );
