@@ -31,8 +31,8 @@ const Part = ({ title, quantity }) => (
  **/
 const Content = ({ course }) => (
   <>
-    {course.parts.map((obj) => (
-      <Part title={obj.title} quantity={obj.quantity} />
+    {course.parts.map((obj, i) => (
+      <Part title={obj.title} quantity={obj.quantity} key={`content_part_${i}`} />
     ))}
   </>
 );
