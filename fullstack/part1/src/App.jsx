@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Statistics from "./components/Statistics";
-import Buttons from "./components/Buttons";
+import Statistics from "./components/unicafe/Statistics";
+import Buttons from "./components/unicafe/Buttons";
 
 const App = () => {
   const [good, setGood] = useState(0);
