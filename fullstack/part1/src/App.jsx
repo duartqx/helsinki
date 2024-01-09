@@ -10,10 +10,8 @@ import React, { useState } from "react";
  * @param {ButtonProps} props
  **/
 const Button = ({ handleClick, text }) => {
-  return (
-    <button onClick={handleClick}>{text}</button>
-  )
-}
+  return <button onClick={handleClick}>{text}</button>;
+};
 
 /**
  * @typedef {Object} StatProps
@@ -26,29 +24,35 @@ const Button = ({ handleClick, text }) => {
  **/
 const Stat = ({ text, value }) => {
   return (
-    <p>{text} {value}</p>
-  )
-}
+    <p>
+      {text} {value}
+    </p>
+  );
+};
 
 const App = () => {
-  const [good, setGood] = useState(0)
-  const [neutral, setNeutral] = useState(0)
-  const [bad, setBad] = useState(0)
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
 
   const handleGood = () => {
-    let newGood = good + 1
-    return setGood(newGood)
-  }
+    let newGood = good + 1;
+    return setGood(newGood);
+  };
 
   const handleNeutral = () => {
-    let newNeutral = neutral + 1
-    return setNeutral(newNeutral)
-  }
+    let newNeutral = neutral + 1;
+    return setNeutral(newNeutral);
+  };
 
   const handleBad = () => {
-    let newBad = bad + 1
-    return setBad(newBad)
-  }
+    let newBad = bad + 1;
+    return setBad(newBad);
+  };
+
+  let all = good + neutral + bad;
+  let avg = (good - bad) / all || 0;
+  let percPositive = (good * 100) / all || 0;
 
   return (
     <div>
@@ -61,8 +65,11 @@ const App = () => {
       <Stat text="good" value={good} />
       <Stat text="neutral" value={neutral} />
       <Stat text="bad" value={bad} />
+      <Stat text="all" value={all} />
+      <Stat text="average" value={avg} />
+      <Stat text="positive" value={percPositive} />
     </div>
-  )
+  );
 };
 
 export default App;
