@@ -38,6 +38,7 @@ const Statistics = ({ stats, shouldRender }) => {
     <>
       {stats.map((st, idx) => (
         <Stat text={st.text} value={st.value} key={`Stat_key_${idx}`} />
+        // This probably counts for 1.10, right?
       ))}
     </>
   );
