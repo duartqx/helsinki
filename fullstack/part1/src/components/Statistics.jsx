@@ -1,0 +1,42 @@
+import React from "react";
+
+/**
+ * @typedef {Object} StatProps
+ * @property {string} text
+ * @property {number} value
+ **/
+
+/**
+ * @param {StatProps} props
+ **/
+const Stat = ({ text, value }) => (
+  <p>
+    {text} {value}
+  </p>
+);
+
+/**
+ * @typedef {Object} Stat
+ * @property {number} value
+ * @property {string} text
+ **/
+
+/**
+ * @typedef {Object} StatisticsProps
+ * @property {Stat[]} stats
+ **/
+
+/**
+ * @param {StatisticsProps} props
+ **/
+const Statistics = ({ stats }) => {
+  return (
+    <>
+      {stats.map((st, idx) => (
+        <Stat text={st.text} value={st.value} key={`Stat_key_${idx}`} />
+      ))}
+    </>
+  );
+};
+
+export default Statistics;

@@ -1,73 +1,60 @@
 import React, { useState } from "react";
-
-/**
- * @typedef {Object} ButtonProps
- * @property {React.MouseEventHandler} handleClick
- * @property {string} text
- **/
-
-/**
- * @param {ButtonProps} props
- **/
-const Button = ({ handleClick, text }) => {
-  return <button onClick={handleClick}>{text}</button>;
-};
-
-/**
- * @typedef {Object} StatProps
- * @property {string} text
- * @property {number} value
- **/
-
-/**
- * @param {StatProps} props
- **/
-const Stat = ({ text, value }) => {
-  return (
-    <p>
-      {text} {value}
-    </p>
-  );
-};
+import Statistics from "./components/Statistics";
+import Buttons from "./components/Buttons";
 
 const App = () => {
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
 
-  const handleGood = () => {
-    let newGood = good + 1;
-    return setGood(newGood);
-  };
+  const getAll = () => good + neutral + bad;
+  const getAvg = () => (good - bad) / getAll() || 0;
+  const getPositive = () => (good * 100) / getAll() || 0;
 
-  const handleNeutral = () => {
-    let newNeutral = neutral + 1;
-    return setNeutral(newNeutral);
-  };
-
-  const handleBad = () => {
-    let newBad = bad + 1;
-    return setBad(newBad);
-  };
-
-  let all = good + neutral + bad;
-  let avg = (good - bad) / all || 0;
-  let percPositive = (good * 100) / all || 0;
-
+  let stats = [
+    {
+      text: "good",
+      value: good,
+      handleClick: function() {
+        let newGood = good + 1;
+        return setGood(newGood);
+      },
+    },
+    {
+      text: "neutral",
+      value: neutral,
+      handleClick: function() {
+        let newNeutral = neutral + 1;
+        return setNeutral(newNeutral);
+      },
+    },
+    {
+      text: "bad",
+      value: bad,
+      handleClick: function() {
+        let newBad = bad + 1;
+        return setBad(newBad);
+      },
+    },
+    {
+      text: "all",
+      value: getAll(),
+    },
+    {
+      text: "average",
+      value: getAvg(),
+    },
+    {
+      text: "positives",
+      value: getPositive(),
+    },
+  ];
   return (
     <div>
       <h2>give feedback</h2>
-      <Button handleClick={handleGood} text="good" />
-      <Button handleClick={handleNeutral} text="neutral" />
-      <Button handleClick={handleBad} text="bad" />
-
+      <Buttons buttons={stats}/>
       <h2>statistics</h2>
-      <Stat text="good" value={good} />
-      <Stat text="neutral" value={neutral} />
-      <Stat text="bad" value={bad} />
-      <Stat text="all" value={all} />
-      <Stat text="average" value={avg} />
-      <Stat text="positive" value={percPositive} />
+      <Statistics stats={stats} />
     </div>
   );
 };
