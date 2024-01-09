@@ -7,15 +7,15 @@ const App = () => {
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
 
-  const getAll = () => good + neutral + bad;
-  const getAvg = () => (good - bad) / getAll() || 0;
-  const getPositive = () => (good * 100) / getAll() || 0;
+  const all = good + neutral + bad;
+  const avg = (good - bad) / all || 0;
+  const positives = (good * 100) / all || 0;
 
   let stats = [
     {
       text: "good",
       value: good,
-      handleClick: function() {
+      handleClick: () => {
         let newGood = good + 1;
         return setGood(newGood);
       },
@@ -23,7 +23,7 @@ const App = () => {
     {
       text: "neutral",
       value: neutral,
-      handleClick: function() {
+      handleClick: () => {
         let newNeutral = neutral + 1;
         return setNeutral(newNeutral);
       },
@@ -31,30 +31,31 @@ const App = () => {
     {
       text: "bad",
       value: bad,
-      handleClick: function() {
+      handleClick: () => {
         let newBad = bad + 1;
         return setBad(newBad);
       },
     },
     {
       text: "all",
-      value: getAll(),
+      value: all,
     },
     {
       text: "average",
-      value: getAvg(),
+      value: avg,
     },
     {
       text: "positives",
-      value: getPositive(),
+      value: positives,
     },
   ];
+
   return (
     <div>
       <h2>give feedback</h2>
-      <Buttons buttons={stats}/>
+      <Buttons buttons={stats} />
       <h2>statistics</h2>
-      <Statistics stats={stats} />
+      <Statistics stats={stats} shouldRender={all !== 0} />
     </div>
   );
 };

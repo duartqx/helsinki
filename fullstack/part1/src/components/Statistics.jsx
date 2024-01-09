@@ -24,12 +24,16 @@ const Stat = ({ text, value }) => (
 /**
  * @typedef {Object} StatisticsProps
  * @property {Stat[]} stats
+ * @property {boolean} shouldRender
  **/
 
 /**
  * @param {StatisticsProps} props
  **/
-const Statistics = ({ stats }) => {
+const Statistics = ({ stats, shouldRender }) => {
+  if (!shouldRender) {
+    return <>No feedback given</>
+  }
   return (
     <>
       {stats.map((st, idx) => (
