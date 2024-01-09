@@ -10,9 +10,10 @@ import React from "react";
  * @param {StatProps} props
  **/
 const Stat = ({ text, value }) => (
-  <p>
-    {text} {value}
-  </p>
+  <tr>
+    <td>{text}</td>
+    <td>{value}</td>
+  </tr>
 );
 
 /**
@@ -36,10 +37,14 @@ const Statistics = ({ stats, shouldRender }) => {
   }
   return (
     <>
-      {stats.map((st, idx) => (
-        <Stat text={st.text} value={st.value} key={`Stat_key_${idx}`} />
-        // This probably counts for 1.10, right?
-      ))}
+      <table>
+        <tbody>
+          {stats.map((st, idx) => (
+            <Stat text={st.text} value={st.value} key={`Stat_key_${idx}`} />
+            // This probably counts for 1.10, right?
+          ))}
+        </tbody>
+      </table>
     </>
   );
 };
