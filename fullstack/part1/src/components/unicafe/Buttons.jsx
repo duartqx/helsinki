@@ -2,7 +2,8 @@ import React from "react";
 
 /**
  * @typedef {Object} ButtonProps
- * @property {React.MouseEventHandler} handleClick
+ * @property {React.MouseEventHandler} [handleClick]
+ * @property {number} [value]
  * @property {string} text
  **/
 
@@ -14,15 +15,8 @@ const Button = ({ handleClick, text }) => (
 );
 
 /**
- * @typedef {Object} FeedbackProp
- * @property {React.MouseEventHandler} [handleClick]
- * @property {number} value
- * @property {string} text
- **/
-
-/**
  * @typedef {Object} ButtonsProps
- * @property {FeedbackProp[]} buttons
+ * @property {ButtonProps[]} buttons
  **/
 
 /**
