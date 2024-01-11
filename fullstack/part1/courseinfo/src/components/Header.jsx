@@ -1,13 +1,18 @@
-import React from "react";
-import * as Types from "../types";
+import React from "react"
 
-/** @typedef {Object} HeaderProps
- * @property {Types.CourseType} course
+/**
+ * @typedef {Object} HeaderProps
+ * @property {string} course
  **/
 
 /**
  * @param {HeaderProps} props
- **/
-const Header = ({ course }) => <h1>{course.name}</h1>;
+**/
+const Header = ({ course }) => {
 
-export default Header;
+  return (
+    <h1>{course}</h1>
+  )
+}
+
+export default Header

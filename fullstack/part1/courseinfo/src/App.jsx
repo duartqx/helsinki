@@ -1,32 +1,34 @@
 import React from "react";
-import Course from './components/Course'
-import * as Types from "./types"
+import Header from "./components/Header";
+import Content from "./components/Content";
+import Total from "./components/Total";
 
 const App = () => {
-  /** @type {Types.CourseType} */
-  const course = {
-    id: 1,
-    name: "Half Stack application development",
-    parts: [
-      {
-        name: "Fundamentals of React",
-        exercises: 10,
-        id: 1
-      },
-      {
-        name: "Using props to pass data",
-        exercises: 7,
-        id: 2
-      },
-      {
-        name: "State of a component",
-        exercises: 14,
-        id: 3
-      },
-    ],
-  };
+  const course = "Half Stack application development";
 
-  return <Course course={course} />
+  const content = [
+    {
+      title: "Fundamentals of React",
+      quantity: 10,
+    },
+    {
+      title: "Using props to pass data",
+      quantity: 7,
+    },
+    {
+      title: "State of a component",
+      quantity: 14,
+    },
+  ];
+  let total = content.reduce((acc, obj) => acc + obj.quantity, 0);
+
+  return (
+    <div>
+      <Header course={course} />
+      <Content contentObjects={content} />
+      <Total total={total} />
+    </div>
+  );
 };
 
 export default App;

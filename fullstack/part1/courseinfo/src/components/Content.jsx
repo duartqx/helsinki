@@ -1,32 +1,32 @@
 import React from "react";
-import * as Types from "../types";
 
 /**
  * @typedef {Object} PartProps
- * @property {Types.CoursePart} part
+ * @property {string} title
+ * @property {number} quantity
  **/
 
 /**
  * @param {PartProps} props
  **/
-const Part = ({ part }) => (
+const Part = ({ title, quantity }) => (
   <p>
-    {part.name} {part.exercises}
+    {title} {quantity}
   </p>
 );
 
 /**
  * @typedef {Object} ContentProps
- * @property {Types.CourseType} course
+ * @property {PartProps[]} contentObjects
  **/
 
 /**
  * @param {ContentProps} props
  **/
-const Content = ({ course }) => (
+const Content = ({ contentObjects }) => (
   <>
-    {course.parts.map((part) => (
-      <Part part={part} key={part.id + part.name} />
+    {contentObjects.map((obj) => (
+      <Part title={obj.title} quantity={obj.quantity} />
     ))}
   </>
 );
