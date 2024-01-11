@@ -1,6 +1,7 @@
 # Helsinki Exercizes project file
 
-Exercize files from various exercize projects from courses offered by the University of Helsinki. These courses offer a refreshing methodology for those who like a handson approach.
+Exercize files from various projects from courses offered by the University of Helsinki. These courses offer a refreshing methodology for those who like a handson approach.
+
 ---
 
 ### About fullstack
