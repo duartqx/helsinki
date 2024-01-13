@@ -13,6 +13,10 @@ const App = () => {
   /** @type {React.FormEventHandler} */
   const handleForm = (e) => {
     e.preventDefault();
+    if (persons.filter((p) => p.name === newName).length) {
+      alert(`${newName} is already added to phonebook`)
+      return
+    }
     setPersons(persons.concat({ name: newName }));
     setNewName("");
   };
