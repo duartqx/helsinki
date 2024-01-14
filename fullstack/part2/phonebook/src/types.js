@@ -25,5 +25,4 @@
  * @property {InputChangeEvent} onChange
  **/
 
-  /** @param {React.ChangeEvent<HTMLInputElement>} e */
 export const _ = {};

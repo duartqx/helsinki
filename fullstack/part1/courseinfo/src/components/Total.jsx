@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 /**
  * @typedef {Object} TotalProps
@@ -7,12 +7,9 @@ import React from "react"
 
 /**
  * @param {TotalProps} props
-**/
+ **/
 const Total = ({ total }) => {
+  return <p>Number of exercises {total}</p>;
+};
 
-  return (
-    <p>Number of exercises {total}</p>
-  )
-}
-
-export default Total
+export default Total;

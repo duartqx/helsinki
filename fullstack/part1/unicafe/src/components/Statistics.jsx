@@ -33,7 +33,7 @@ const Stat = ({ text, value }) => (
  **/
 const Statistics = ({ stats, shouldRender }) => {
   if (!shouldRender) {
-    return <>No feedback given</>
+    return <>No feedback given</>;
   }
   return (
     <>

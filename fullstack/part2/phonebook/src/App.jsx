@@ -3,7 +3,7 @@ import React from "react";
 import * as Types from "./types";
 import Persons from "./components/Persons";
 import PhoneBookForm from "./components/PhoneBookForm";
-import FilterPersons from "./components/FilterPersons"
+import FilterPersons from "./components/FilterPersons";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -73,7 +73,10 @@ const App = () => {
       return;
     }
 
-    if (persons.filter((p) => p.name === newName).length) {
+    if (
+      persons.filter((p) => p.name.toLowerCase() === newName.toLowerCase())
+        .length
+    ) {
       alert(`${newName} is already added to phonebook!`);
       return;
     }

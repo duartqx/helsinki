@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 /**
  * @typedef {Object} HeaderProps
@@ -7,12 +7,9 @@ import React from "react"
 
 /**
  * @param {HeaderProps} props
-**/
+ **/
 const Header = ({ course }) => {
+  return <h1>{course}</h1>;
+};
 
-  return (
-    <h1>{course}</h1>
-  )
-}
-
-export default Header
+export default Header;
