@@ -2,6 +2,12 @@ import * as Types from "../types";
 import axios from "axios";
 const baseUrl = "http://localhost:3001/persons";
 
+/** @type {number[]} */
+let ids = [];
+
+/** @returns {number} **/
+const getNextId = () => Math.max(...ids) + 1;
+
 /**
  * @typedef {Object} apiPerson
  * @property {string} name
@@ -11,7 +17,10 @@ const baseUrl = "http://localhost:3001/persons";
 
 /** @returns {Types.Person} */
 const parsePersonId = (/** @type {apiPerson} */ p) => {
-  return { ...p, id: parseInt(p.id) };
+  const id = parseInt(p.id);
+  // Stores the id to ids (It's used on getNextId)
+  ids = ids.concat(id);
+  return { ...p, id: id };
 };
 
 /** @returns {Promise<Types.Person[]>} */
@@ -26,7 +35,8 @@ const all = async () => {
  * @returns {Promise<Types.Person>}
  **/
 const create = async (person) => {
-  return axios.post(baseUrl, person).then((res) => parsePersonId(res.data));
+  const newPerson = { ...person, id: getNextId() };
+  return axios.post(baseUrl, newPerson).then((res) => parsePersonId(res.data));
 };
 
 /**

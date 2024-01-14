@@ -4,7 +4,7 @@ import Persons from "./components/Persons";
 import PhoneBookForm from "./components/PhoneBookForm";
 import React from "react";
 import { useEffect, useState } from "react";
-import personsService from "./services/persons"
+import personsService from "./services/persons";
 
 /**
  * @typedef {Object} apiPerson
@@ -25,9 +25,6 @@ const App = () => {
   useEffect(() => {
     personsService.all().then((initPersons) => setPersons(initPersons));
   }, []);
-
-  /** @returns {number} **/
-  const getNextId = () => (persons[persons.length - 1]?.id || 0) + 1;
 
   /** @type {Types.GetPersons} */
   const getPersons = () => {
@@ -75,15 +72,16 @@ const App = () => {
       return;
     }
 
-    setPersons(
-      persons.concat({
+    personsService
+      .create({
         name: newName,
         number: newPhone,
-        id: getNextId(),
-      }),
-    );
-    setNewName("");
-    setNewPhone("");
+      })
+      .then((p) => {
+        setPersons(persons.concat(p));
+        setNewName("");
+        setNewPhone("");
+      });
   };
 
   /** @type {Types.PhoneBookInputValue[]} */
