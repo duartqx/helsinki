@@ -3,8 +3,8 @@ import FilterPersons from "./components/FilterPersons";
 import Persons from "./components/Persons";
 import PhoneBookForm from "./components/PhoneBookForm";
 import React from "react";
-import axios from "axios";
 import { useEffect, useState } from "react";
+import personsService from "./services/persons"
 
 /**
  * @typedef {Object} apiPerson
@@ -22,17 +22,9 @@ const App = () => {
   const [newPhone, setNewPhone] = useState("");
   const [filter, setFilter] = useState("");
 
-  const hookPersons = () => {
-    axios.get("http://localhost:3001/persons").then((res) => {
-      setPersons(
-        res.data.map((/** @type {apiPerson} */ p) => {
-          return { ...p, id: parseInt(p.id) };
-        }),
-      );
-    });
-  };
-
-  useEffect(hookPersons, []);
+  useEffect(() => {
+    personsService.all().then((initPersons) => setPersons(initPersons));
+  }, []);
 
   /** @returns {number} **/
   const getNextId = () => (persons[persons.length - 1]?.id || 0) + 1;

@@ -23,7 +23,7 @@ const PhoneBookForm = ({ onSubmit, parts }) => {
   return (
     <form onSubmit={onSubmit}>
       {parts.map((p) => (
-        <PhoneBookInput input={p} />
+        <PhoneBookInput input={p} key={`phonebook_input_${p.label}`} />
       ))}
       <div>
         <button type="submit">add</button>

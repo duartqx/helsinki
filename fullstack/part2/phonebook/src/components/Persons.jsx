@@ -21,7 +21,7 @@ const Persons = ({ getPersons }) => {
   return (
     <>
       {getPersons().map((/** @type {Types.Person} */ p) => (
-        <Person person={p} />
+        <Person person={p} key={`person_${p.id}`} />
       ))}
     </>
   );
