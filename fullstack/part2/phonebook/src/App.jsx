@@ -1,38 +1,40 @@
-import { useState } from "react";
-import React from "react";
 import * as Types from "./types";
+import FilterPersons from "./components/FilterPersons";
 import Persons from "./components/Persons";
 import PhoneBookForm from "./components/PhoneBookForm";
-import FilterPersons from "./components/FilterPersons";
+import React from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+
+/**
+ * @typedef {Object} apiPerson
+ * @property {string} name
+ * @property {string} number
+ * @property {string} id
+ **/
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    {
-      name: "Arto Hellas",
-      number: "040-123456",
-      id: 1,
-    },
-    {
-      name: "Ada Lovelace",
-      number: "39-44-5323523",
-      id: 2,
-    },
-    {
-      name: "Dan Abramov",
-      number: "12-43-234345",
-      id: 3,
-    },
-    {
-      name: "Mary Poppendieck",
-      number: "39-23-6423122",
-      id: 4,
-    },
-  ]);
+  /** @type {Types.Person[]} */
+  let initialPersonState = []; // Stops jsdoc warnings
+
+  const [persons, setPersons] = useState(initialPersonState);
   const [newName, setNewName] = useState("");
   const [newPhone, setNewPhone] = useState("");
   const [filter, setFilter] = useState("");
 
-  /** @returns {number} */
+  const hookPersons = () => {
+    axios.get("http://localhost:3001/persons").then((res) => {
+      setPersons(
+        res.data.map((/** @type {apiPerson} */ p) => {
+          return { ...p, id: parseInt(p.id) };
+        }),
+      );
+    });
+  };
+
+  useEffect(hookPersons, []);
+
+  /** @returns {number} **/
   const getNextId = () => (persons[persons.length - 1]?.id || 0) + 1;
 
   /** @type {Types.GetPersons} */
@@ -110,10 +112,9 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <FilterPersons onChange={handleFilterChange} value={filter} />
-      <h2>Add a new</h2>
+      <h3>Add a new</h3>
       <PhoneBookForm onSubmit={handleForm} parts={formParts} />
-      <h2>Numbers</h2>
-
+      <h3>Numbers</h3>
       <Persons getPersons={getPersons} />
     </div>
   );
