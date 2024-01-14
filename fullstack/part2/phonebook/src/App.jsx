@@ -1,12 +1,7 @@
 import { useState } from "react";
 import React from "react";
-
-/**
- * @typedef {Object} Person
- * @property {string} name
- * @property {string} number
- * @property {number} id
- **/
+import * as Types from "./types";
+import Persons from "./components/Persons"
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -38,7 +33,7 @@ const App = () => {
   /** @returns {number} */
   const getNextId = () => (persons[persons.length - 1]?.id || 0) + 1
 
-  /** @returns {Person[]} */
+  /** @type {Types.GetPersons} */
   const getPersons = () => {
     return filter
       ? persons.filter((p) =>
@@ -62,6 +57,51 @@ const App = () => {
     setNewPhone(e.target.value);
   };
 
+  const handleFormObj = {
+    fields: [
+      {
+        value: newName,
+        setValue: (/** @type {string} */ newValue) => { setNewName(newValue) },
+        isInvalid: () => !newName,
+        invalidMessage: "You need to specify a name!",
+      },
+      {
+        value: newPhone,
+        setValue: (/** @type {string} */ newValue) => { setNewPhone(newValue) },
+        isInvalid: () => !newPhone,
+        invalidMessage: "You need to specify a phone!",
+      },
+      {
+        value: persons,
+        setValue: (/** @type {string} */ newValue) => { 
+          setPersons(
+            persons.concat({
+              name: newName,
+              number: newPhone,
+              id: getNextId(),
+            }),
+          );
+        },
+        isInvalid: () => persons.filter((p) => p.name === newName).length,
+        invalidMessage: `${newName} is already added to phonebook!`,
+      },
+    ],
+    validate: /** @returns {string} */ function() {
+      for (let field of this.fields) {
+        if (field.isInvalid()) {
+          return field.invalidMessage
+        }
+      }
+      return ""
+    },
+    submit: /** @returns {void} */ function() {
+      // Loops from the end to start of fields and sets the new value
+      for (let i = this.fields.length - 1; i >= 0; i--) {
+        this.fields[i].setValue("")
+      }
+    }
+  }
+
   /** @type {React.FormEventHandler} */
   const handleForm = (e) => {
     e.preventDefault();
@@ -80,6 +120,7 @@ const App = () => {
       alert(`${newName} is already added to phonebook!`);
       return;
     }
+
     setPersons(
       persons.concat({
         name: newName,
@@ -112,11 +153,9 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      {getPersons().map((p) => (
-        <p>
-          {p.id} {p.name} {p.number}
-        </p>
-      ))}
+
+      <Persons getPersons={getPersons} />
+
     </div>
   );
 };
