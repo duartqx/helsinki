@@ -14,4 +14,16 @@
  *
  **/
 
+/**
+ * @typedef {(e: React.ChangeEvent<HTMLInputElement>) => void} InputChangeEvent
+ *
+
+/**
+ * @typedef {Object} PhoneBookInputValue
+ * @property {string} label
+ * @property {string} value
+ * @property {InputChangeEvent} onChange
+ **/
+
+  /** @param {React.ChangeEvent<HTMLInputElement>} e */
 export const _ = {};
