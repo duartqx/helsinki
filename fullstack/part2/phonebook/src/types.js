@@ -9,10 +9,9 @@
  * @property {number} [id]
  **/
 
-/**
- * @typedef {() => Person[]} GetPersons
- *
- **/
+/** @typedef {() => Person[]} GetPersons */
+
+/** @typedef {(person: Person) => () => void} DeletePerson */
 
 /**
  * @typedef {(e: React.ChangeEvent<HTMLInputElement>) => void} InputChangeEvent

@@ -21,19 +21,14 @@
       "id": "4"
     },
     {
-      "id": 0,
-      "name": "Diego Duarte",
-      "number": "55 83 99902 6803"
-    },
-    {
-      "id": 5,
-      "name": "Teste",
-      "number": "123123"
-    },
-    {
-      "id": 6,
+      "id": "6",
       "name": "tes",
       "number": "234123512"
+    },
+    {
+      "id": "7",
+      "name": "Diego Duart",
+      "number": "55 83 99902 6803"
     }
   ]
 }

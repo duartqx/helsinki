@@ -23,7 +23,7 @@ const App = () => {
   const [filter, setFilter] = useState("");
 
   useEffect(() => {
-    personsService.all().then((initPersons) => setPersons(initPersons));
+    personsService.allPersons().then((initPersons) => setPersons(initPersons));
   }, []);
 
   /** @type {Types.GetPersons} */
@@ -33,6 +33,14 @@ const App = () => {
           p.name.toLowerCase().includes(filter.toLowerCase()),
         )
       : persons;
+  };
+
+  /** @type {Types.DeletePerson} */
+  const deletePersonHandler = (person) => () => {
+    if (window.confirm(`Delete ${person.name} ?`)) {
+      personsService.deletePerson(person.id || 0);
+      setPersons(() => persons.filter((p) => p.id !== person.id));
+    }
   };
 
   /** @type {Types.InputChangeEvent} */
@@ -73,7 +81,7 @@ const App = () => {
     }
 
     personsService
-      .create({
+      .createPerson({
         name: newName,
         number: newPhone,
       })
@@ -105,7 +113,10 @@ const App = () => {
       <h3>Add a new</h3>
       <PhoneBookForm onSubmit={handleForm} parts={formParts} />
       <h3>Numbers</h3>
-      <Persons getPersons={getPersons} />
+      <Persons
+        getPersons={getPersons}
+        deletePersonHandler={deletePersonHandler}
+      />
     </div>
   );
 };

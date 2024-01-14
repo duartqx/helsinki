@@ -1,11 +1,12 @@
 import * as Types from "../types";
 import axios from "axios";
+
 const baseUrl = "http://localhost:3001/persons";
 
 /** @type {number[]} */
 let ids = [];
 
-/** @returns {number} **/
+/** @returns {number} */
 const getNextId = () => Math.max(...ids) + 1;
 
 /**
@@ -24,7 +25,7 @@ const parsePersonId = (/** @type {apiPerson} */ p) => {
 };
 
 /** @returns {Promise<Types.Person[]>} */
-const all = async () => {
+const allPersons = async () => {
   return axios.get(baseUrl).then((res) => {
     return res.data.map((/** @type {apiPerson} */ p) => parsePersonId(p));
   });
@@ -34,9 +35,13 @@ const all = async () => {
  * @param {Types.Person} person
  * @returns {Promise<Types.Person>}
  **/
-const create = async (person) => {
-  const newPerson = { ...person, id: getNextId() };
+const createPerson = async (person) => {
+  const newPerson = { ...person, id: getNextId().toString() };
   return axios.post(baseUrl, newPerson).then((res) => parsePersonId(res.data));
+};
+
+const deletePerson = async (/** @type {number} */ id) => {
+  return axios.delete(`${baseUrl}/${id}`).then((res) => res.data);
 };
 
 /**
@@ -44,10 +49,10 @@ const create = async (person) => {
  * @param {Types.Person} person
  * @returns {Promise<Types.Person>}
  **/
-const update = async (id, person) => {
+const updatePerson = async (id, person) => {
   return axios
     .put(`${baseUrl}/${id}`, person)
     .then((res) => parsePersonId(res.data));
 };
 
-export default { all, create, update };
+export default { allPersons, createPerson, updatePerson, deletePerson };
