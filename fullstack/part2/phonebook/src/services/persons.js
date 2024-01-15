@@ -45,13 +45,12 @@ const deletePerson = async (/** @type {number} */ id) => {
 };
 
 /**
- * @param {number} id
  * @param {Types.Person} person
  * @returns {Promise<Types.Person>}
  **/
-const updatePerson = async (id, person) => {
+const updatePerson = async (person) => {
   return axios
-    .put(`${baseUrl}/${id}`, person)
+    .put(`${baseUrl}/${person.id}`, person)
     .then((res) => parsePersonId(res.data));
 };
 

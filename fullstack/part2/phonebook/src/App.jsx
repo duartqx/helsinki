@@ -72,11 +72,27 @@ const App = () => {
       return;
     }
 
-    if (
-      persons.filter((p) => p.name.toLowerCase() === newName.toLowerCase())
-        .length
-    ) {
-      alert(`${newName} is already added to phonebook!`);
+    const personExistsIndex = persons.findIndex(
+      (p) => p.name.toLowerCase() === newName.toLowerCase(),
+    );
+    const personExists = () => personExistsIndex !== -1
+
+    if (personExists()) {
+        if (window.confirm(
+          `${persons[personExistsIndex].name} is already added to ` +
+            `phonebook, replace the old number with a new one?`,
+        )
+      ) {
+        personsService
+          .updatePerson({ ...persons[personExistsIndex], number: newPhone })
+          .then((person) => {
+            const personsCopy = [...persons];
+            personsCopy[personExistsIndex] = person;
+            setPersons(() => personsCopy);
+            setNewName("");
+            setNewPhone("");
+          });
+      }
       return;
     }
 
@@ -86,7 +102,7 @@ const App = () => {
         number: newPhone,
       })
       .then((p) => {
-        setPersons(persons.concat(p));
+        setPersons(() => persons.concat(p));
         setNewName("");
         setNewPhone("");
       });
