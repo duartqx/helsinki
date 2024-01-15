@@ -2,7 +2,7 @@
 
 Exercise files from various exercise projects from courses offered by the University of Helsinki.
 
-These courses offer a refreshing methodology for those who prefer a hands-on approach. Rather than simply lecturing on the material, the instructors provide students with a series of exercises that they must complete in order to master the concepts. This approach allows students to learn by doing, and it helps them to retain the information more effectively.
+These courses offer a refreshing methodology for those who prefer a hands-on approach. Rather than simply lecturing on the material or avaliating with quizzes, the courses provide a series of exercises that must complete in order to master the concepts and receive the certification. This approach allows students to learn by doing, and it helps to retain the information more effectively.
 
 ---
 
