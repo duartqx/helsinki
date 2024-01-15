@@ -6,7 +6,7 @@ import * as Types from "../types";
  * @param {() => void} props.handleDelete
  **/
 const DeleteButton = ({ handleDelete }) => {
-  return <button onClick={handleDelete}>delete</button>;
+  return <button className="btn btn-sm btn-danger float-end" onClick={handleDelete}>delete</button>;
 };
 
 /**
@@ -16,10 +16,12 @@ const DeleteButton = ({ handleDelete }) => {
  **/
 const Person = ({ person, deletePersonHandler }) => {
   return (
-    <p>
-      {person.id} {person.name} {person.number}{" "}
-      <DeleteButton handleDelete={deletePersonHandler} />
-    </p>
+    <tr className="align-middle">
+      <th scope="row">{person.id}</th>
+      <td>{person.name}</td>
+      <td>{person.number}</td>
+      <td><DeleteButton handleDelete={deletePersonHandler} /></td>
+    </tr>
   );
 };
 
@@ -30,15 +32,19 @@ const Person = ({ person, deletePersonHandler }) => {
  **/
 const Persons = ({ getPersons, deletePersonHandler }) => {
   return (
-    <>
-      {getPersons().map((/** @type {Types.Person} */ person) => (
-        <Person
-          person={person}
-          deletePersonHandler={deletePersonHandler(person)}
-          key={`person_${person.id}`}
-        />
-      ))}
-    </>
+    <div className="px-5 col-md-12">
+      <table className="table table-hover">
+        <tbody>
+          {getPersons().map((/** @type {Types.Person} */ person) => (
+            <Person
+              person={person}
+              deletePersonHandler={deletePersonHandler(person)}
+              key={`person_${person.id}`}
+            />
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 

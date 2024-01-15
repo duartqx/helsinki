@@ -8,8 +8,11 @@ import * as Types from "../types";
  **/
 const FilterPersons = ({ onChange, value }) => {
   return (
-    <div>
-      filter shown with <input type="text" onChange={onChange} value={value} />
+    <div className="px-5">
+      <div className="mb-3">
+        <label htmlFor="filter" className="form-label">filter shown with</label>
+        <input name="filter" type="text" onChange={onChange} value={value} className="form-control" />
+      </div>
     </div>
   );
 };

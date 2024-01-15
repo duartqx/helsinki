@@ -24,4 +24,11 @@
  * @property {InputChangeEvent} onChange
  **/
 
+/**
+ * @typedef {Object} StatusObject
+ * @property {string} [message]
+ * @property {string} [status]
+ * @property {boolean} [success]
+ **/
+
 export const _ = {};
