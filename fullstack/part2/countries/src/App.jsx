@@ -19,10 +19,14 @@ function App() {
   /** @type {(e: React.ChangeEvent<HTMLInputElement>) => void} */
   const handleFilterCountries = (e) => setFilter(e.target.value);
 
-  const filterCountries = () =>
-    countries.filter((c) =>
+  const filterCountries = () => {
+    return countries.filter((c) =>
       c.name.common.toLowerCase().includes(filter.toLowerCase()),
     );
+  };
+
+  /** @type {(name: string) => () => void} */
+  const showCountryByFilter = (name) => () => setFilter(name);
 
   return (
     <>
@@ -38,7 +42,10 @@ function App() {
         />
       </div>
       <div className="table table-hover">
-        <Countries countries={filterCountries()} />
+        <Countries
+          countries={filterCountries()}
+          setFilter={showCountryByFilter}
+        />
       </div>
     </>
   );

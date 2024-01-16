@@ -5,8 +5,9 @@ import Country from "./Country";
 /**
  * @param {Object} props
  * @param {Types.Country[]} props.countries
+ * @param {(name: string) => () => void} props.setFilter
  **/
-const Countries = ({ countries }) => {
+const Countries = ({ countries, setFilter }) => {
   if (countries.length > 10) {
     return <div>Too many matches, specify another filter</div>;
   }
@@ -15,7 +16,10 @@ const Countries = ({ countries }) => {
     return (
       <>
         {countries.map((c) => (
-          <div>{c.name.common}</div>
+          <div key={`key_countries_${c.name.common}`}>
+            {c.name.common}{" "}
+            <button onClick={setFilter(c.name.common)}>show</button>
+          </div>
         ))}
       </>
     );
@@ -27,7 +31,7 @@ const Countries = ({ countries }) => {
     return <div>No matches found, specify another filter</div>;
   }
 
-  return <Country country={country} />
+  return <Country country={country} />;
 };
 
 export default Countries;
