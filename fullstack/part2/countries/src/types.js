@@ -8,96 +8,67 @@
  **/
 
 /**
- * @typedef {Object} Currency
- * @property {string} name
- * @property {string} symbol
+ * @typedef {{
+ *  name: Name
+ *  tld?: string[]
+ *  cca2: string
+ *  ccn3?: string
+ *  cca3: string
+ *  cioc?: string
+ *  independent?: boolean
+ *  status: string
+ *  unMember: boolean
+ *  currencies?: {name: string, symbol: string}
+ *  idd: {root: string, suffixes: string[]}
+ *  capital?: string[]
+ *  altSpellings: string[]
+ *  region: string
+ *  subregion?: string
+ *  languages?: {string: string}
+ *  translations: {string: Name}
+ *  latlng: number[]
+ *  landlocked: boolean
+ *  borders?: string[]
+ *  area: number
+ *  demonyms?: {f: string, m: string}
+ *  flag: string
+ *  maps: {googleMaps: string, openStreetMaps: string}
+ *  population: number
+ *  gini?: {string: number}
+ *  fifa?: string
+ *  car: {signs: string[], side: string}
+ *  timezones: string[]
+ *  continents: string[]
+ *  flags: {png: string, svg: string, alt: string}
+ *  coatOfArms: {png: string, svg: string}
+ *  startOfWeek: string
+ *  capitalInfo: {latlng: number[]}
+ *  postalCode?: {format: string, regex: string}
+ * }} Country
  **/
 
 /**
- * @typedef {Object} Idd
- * @property {string} root
- * @property {string[]} suffixes
- **/
-
-/**
- * @typedef {Object} Demonym
- * @property {string} f
- * @property {string} m
- **/
-
-/**
- * @typedef {Object} Maps
- * @property {string} googleMaps
- * @property {string} openStreetMaps
- **/
-
-/**
- * @typedef {Object} Cars
- * @property {string[]} signs
- * @property {string} side
- **/
-
-/**
- * @typedef {Object} Flags
- * @property {string} png
- * @property {string} svg
- * @property {string} alt
- **/
-
-/**
- * @typedef {Object} CoatOfArms
- * @property {string} png
- * @property {string} svg
- **/
-
-/**
- * @typedef {Object} CapitalInfo
- * @property {number[]} latlng
- **/
-
-/**
- * @typedef {Object} PostalCode
- * @property {string} format
- * @property {string} regex
- **/
-
-/**
- * @typedef {Object} Country
- * @property {Name} name
- * @property {string[]} [tld]
- * @property {string} cca2
- * @property {string} [ccn3]
- * @property {string} cca3
- * @property {string} [cioc]
- * @property {boolean} [independent]
- * @property {string} status
- * @property {boolean} unMember
- * @property {{string: Currency}} [currencies]
- * @property {Idd} idd
- * @property {string[]} [capital]
- * @property {string[]} altSpellings
- * @property {string} region
- * @property {string} [subregion]
- * @property {{string: string}} [languages]
- * @property {{string: Name}} translations
- * @property {number[]} latlng
- * @property {boolean} landlocked
- * @property {string[]} [borders]
- * @property {number} area
- * @property {{string: Demonym}} [demonyms]
- * @property {string} flag
- * @property {Maps} maps
- * @property {number} population
- * @property {{string: number}} [gini]
- * @property {string} [fifa]
- * @property {Cars} car
- * @property {string[]} timezones
- * @property {string[]} continents
- * @property {Flags} flags
- * @property {CoatOfArms} coatOfArms
- * @property {string} startOfWeek
- * @property {CapitalInfo} capitalInfo
- * @property {PostalCode} [postalCode]
+ * @typedef {{
+ *  latitude: number
+ *  longitude: number
+ *  generationtime_ms: number
+ *  utc_offset_seconds: number
+ *  timezone: string
+ *  timezone_abbreviation: string
+ *  elevation: number
+ *  current_units: {
+ *    time: string
+ *    internal: string
+ *    temperature_2m: string
+ *    wind_speed_10m: string
+ *  }
+ *  current: {
+ *    time: string 
+ *    internal: number
+ *    temperature_2m: number
+ *    wind_speed_10m: number
+ *  }
+ * }} Weather
  **/
 
 export const _ = {};

@@ -3,11 +3,19 @@ import * as Types from "../types";
 import Country from "./Country";
 
 /**
- * @param {Object} props
- * @param {Types.Country[]} props.countries
- * @param {(name: string) => () => void} props.setFilter
+ * @param {{
+ *  countries: Types.Country[]
+ *  setFilter: (name: string) => () => void
+ *  setSingleCountry: (country: Types.Country) => void
+ *  currentWeather: Types.Weather | null
+ * }} props
  **/
-const Countries = ({ countries, setFilter }) => {
+const Countries = ({
+  countries,
+  setFilter,
+  setSingleCountry,
+  currentWeather,
+}) => {
   if (countries.length > 10) {
     return <div>Too many matches, specify another filter</div>;
   }
@@ -29,9 +37,11 @@ const Countries = ({ countries, setFilter }) => {
 
   if (!country) {
     return <div>No matches found, specify another filter</div>;
+  } else {
+    setSingleCountry(country)
   }
 
-  return <Country country={country} />;
+  return <Country country={country} weather={currentWeather} />;
 };
 
 export default Countries;

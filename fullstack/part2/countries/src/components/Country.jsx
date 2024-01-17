@@ -2,10 +2,36 @@ import React from "react";
 import * as Types from "../types";
 
 /**
- * @param {Object} props
- * @param {Types.Country} props.country
+ * @param {{
+ *  capital: string | undefined
+ *  weather: Types.Weather | null
+ * }} props
  **/
-const Country = ({ country }) => {
+const Weather = ({ capital, weather }) => {
+  return capital && weather && (
+    <div>
+      <h3>Weather in {capital}</h3>
+      <p>
+        temperature {weather.current.temperature_2m}{" "}
+        {weather.current_units.temperature_2m}
+      </p>
+      <p>
+        wind {weather.current.wind_speed_10m}{" "}
+        {weather.current_units.wind_speed_10m}
+      </p>
+    </div>
+  );
+};
+
+/**
+ * @param {{
+ *  country: Types.Country
+ *  weather: Types.Weather | null
+ * }} props
+ **/
+const Country = ({ country, weather }) => {
+  const weatherIsAvailable = () =>
+    weather !== null && country.capital?.length !== 0;
   return (
     <>
       <h2>{country.name.common}</h2>
@@ -23,6 +49,12 @@ const Country = ({ country }) => {
       <div>
         <img src={country.flags.png} alt={country.flags.alt} />
       </div>
+      {weatherIsAvailable() && (
+        <Weather
+          capital={country["capital"] && country.capital[0]}
+          weather={weather}
+        />
+      )}
     </>
   );
 };
