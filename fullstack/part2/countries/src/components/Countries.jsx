@@ -6,13 +6,10 @@ import weatherService from "../services/weather";
 /**
  * @param {{
  *  countries: Types.Country[]
- *  setFilter: (name: string) => () => void
+ *  setSetFilter: (name: string) => () => void
  * }} props
  **/
-const Countries = ({ countries, setFilter }) => {
-  /** @type {{string: Types.Weather} | {}} */
-  const cachedWeatherForecast = {};
-
+const Countries = ({ countries, setSetFilter }) => {
   const [currentCountry, setCurrentCountry] = useState(
     /** @type {Types.Country | null} */ (null),
   );
@@ -21,7 +18,6 @@ const Countries = ({ countries, setFilter }) => {
   );
 
   useEffect(() => {
-    console.log("setCurrentWeatherWithSingleCountry");
     if (
       !currentCountry ||
       !currentCountry.capitalInfo ||
@@ -29,24 +25,14 @@ const Countries = ({ countries, setFilter }) => {
     ) {
       return;
     }
-    /** @type {string} */
-    const currentKey = currentCountry.name.common
-      .replace(/ /g, "")
-      .toLowerCase();
-
-    if (cachedWeatherForecast[currentKey]) {
-      setCurrentWeather(cachedWeatherForecast[currentKey]);
-    } else {
-      weatherService
-        .getWeatherByLatLng(
-          currentCountry.capitalInfo.latlng[0],
-          currentCountry.capitalInfo.latlng[1],
-        )
-        .then((weather) => {
-          cachedWeatherForecast[currentKey] = weather;
-          setCurrentWeather(weather);
-        });
-    }
+    weatherService
+      .getWeatherByLatLng(
+        currentCountry.capitalInfo.latlng[0],
+        currentCountry.capitalInfo.latlng[1],
+      )
+      .then((weather) => {
+        setCurrentWeather(weather);
+      });
   }, [currentCountry]);
 
   if (countries.length > 10) {
@@ -59,7 +45,7 @@ const Countries = ({ countries, setFilter }) => {
         {countries.map((c) => (
           <div key={`key_countries_${c.name.common}`}>
             {c.name.common}{" "}
-            <button onClick={setFilter(c.name.common)}>show</button>
+            <button onClick={setSetFilter(c.name.common)}>show</button>
           </div>
         ))}
       </>
