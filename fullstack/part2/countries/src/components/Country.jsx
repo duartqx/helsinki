@@ -8,18 +8,21 @@ import * as Types from "../types";
  * }} props
  **/
 const Weather = ({ capital, weather }) => {
-  return capital && weather && (
-    <div>
-      <h3>Weather in {capital}</h3>
-      <p>
-        temperature {weather.current.temperature_2m}{" "}
-        {weather.current_units.temperature_2m}
-      </p>
-      <p>
-        wind {weather.current.wind_speed_10m}{" "}
-        {weather.current_units.wind_speed_10m}
-      </p>
-    </div>
+  return (
+    capital &&
+    weather && (
+      <div>
+        <h3>Weather in {capital}</h3>
+        <p>
+          temperature {weather.current.temperature_2m}{" "}
+          {weather.current_units.temperature_2m}
+        </p>
+        <p>
+          wind {weather.current.wind_speed_10m}{" "}
+          {weather.current_units.wind_speed_10m}
+        </p>
+      </div>
+    )
   );
 };
 

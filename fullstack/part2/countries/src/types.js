@@ -63,7 +63,7 @@
  *    wind_speed_10m: string
  *  }
  *  current: {
- *    time: string 
+ *    time: string
  *    internal: number
  *    temperature_2m: number
  *    wind_speed_10m: number

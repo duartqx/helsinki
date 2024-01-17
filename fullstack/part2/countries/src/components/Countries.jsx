@@ -1,21 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as Types from "../types";
 import Country from "./Country";
+import weatherService from "../services/weather";
 
 /**
  * @param {{
  *  countries: Types.Country[]
  *  setFilter: (name: string) => () => void
- *  setSingleCountry: (country: Types.Country) => void
- *  currentWeather: Types.Weather | null
  * }} props
  **/
-const Countries = ({
-  countries,
-  setFilter,
-  setSingleCountry,
-  currentWeather,
-}) => {
+const Countries = ({ countries, setFilter }) => {
+  /** @type {{string: Types.Weather} | {}} */
+  const cachedWeatherForecast = {};
+
+  const [currentCountry, setCurrentCountry] = useState(
+    /** @type {Types.Country | null} */ (null),
+  );
+  const [currentWeather, setCurrentWeather] = useState(
+    /** @type {Types.Weather | null} */ (null),
+  );
+
+  useEffect(() => {
+    console.log("setCurrentWeatherWithSingleCountry");
+    if (
+      !currentCountry ||
+      !currentCountry.capitalInfo ||
+      !currentCountry.capitalInfo["latlng"]
+    ) {
+      return;
+    }
+    /** @type {string} */
+    const currentKey = currentCountry.name.common
+      .replace(/ /g, "")
+      .toLowerCase();
+
+    if (cachedWeatherForecast[currentKey]) {
+      setCurrentWeather(cachedWeatherForecast[currentKey]);
+    } else {
+      weatherService
+        .getWeatherByLatLng(
+          currentCountry.capitalInfo.latlng[0],
+          currentCountry.capitalInfo.latlng[1],
+        )
+        .then((weather) => {
+          cachedWeatherForecast[currentKey] = weather;
+          setCurrentWeather(weather);
+        });
+    }
+  }, [currentCountry]);
+
   if (countries.length > 10) {
     return <div>Too many matches, specify another filter</div>;
   }
@@ -37,8 +70,8 @@ const Countries = ({
 
   if (!country) {
     return <div>No matches found, specify another filter</div>;
-  } else {
-    setSingleCountry(country)
+  } else if (country.name.common !== currentCountry?.name.common) {
+    setCurrentCountry(country);
   }
 
   return <Country country={country} weather={currentWeather} />;
