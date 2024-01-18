@@ -41,4 +41,9 @@ app.get("/api/persons", (_, response) => {
   return response.json(NOTES);
 });
 
+app.get("/api/persons/:id", (request, response) => {
+  const note = NOTES.find((n) => n.id.toString() === request.params.id);
+  return note ? response.json(note) : response.status(404).end();
+});
+
 app.listen(3001);
