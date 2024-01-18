@@ -44,8 +44,8 @@ app.post("/api/persons", (request, response) => {
 });
 
 app.get("/api/persons/:id", (request, response) => {
-  const note = personRepository.findById(request.params.id);
-  return note ? response.json(note) : response.status(404).end();
+  const person = personRepository.findById(request.params.id);
+  return person ? response.json(person) : response.status(404).end();
 });
 
 app.delete("/api/persons/:id", (request, response) => {
