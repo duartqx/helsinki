@@ -27,7 +27,17 @@ const NOTES = [
   },
 ];
 
-app.get("/api/persons", (request, response) => {
+app.get("/info", (_, response) => {
+  return response.send(`
+    <div>
+      <div>Phonebook has info for ${NOTES.length} people</div>
+      <br />
+      <div>${new Date()}</div>
+    </div>
+  `);
+});
+
+app.get("/api/persons", (_, response) => {
   return response.json(NOTES);
 });
 
