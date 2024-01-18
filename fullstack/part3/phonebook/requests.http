@@ -1,0 +1,27 @@
+@host=http://localhost:3001
+
+###
+GET {{ host }}/api/persons
+
+###
+POST {{ host }}/api/persons
+Content-Type: application/json
+Accept: */*
+
+{
+    "name": "Duterte Dutarto",
+    "number": "99-99999-9999"
+}
+
+###
+POST {{ host }}/api/persons
+Content-Type: application/json
+Accept: */*
+
+{}
+
+###
+GET {{ host }}/api/persons/3
+
+###
+DELETE {{ host }}/api/persons/3

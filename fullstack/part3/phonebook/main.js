@@ -1,36 +1,17 @@
 import express from "express";
+import personRepository from "./src/persons/person.js";
+import * as Types from "./src/persons/types.js"
 
 const app = express();
 
 app.use(express.json());
 
-let notes = [
-  {
-    id: 1,
-    name: "Arto Hellas",
-    number: "040-123456",
-  },
-  {
-    id: 2,
-    name: "Ada Lovelace",
-    number: "39-44-5323523",
-  },
-  {
-    id: 3,
-    name: "Dan Abramov",
-    number: "12-43-234345",
-  },
-  {
-    id: 4,
-    name: "Mary Poppendieck",
-    number: "39-23-6423122",
-  },
-];
-
 app.get("/info", (_, response) => {
   return response.send(`
     <div>
-      <div>Phonebook has info for ${notes.length} people</div>
+      <div>Phonebook has info for ${
+        personRepository.persons.length
+      } people</div>
       <br />
       <div>${new Date()}</div>
     </div>
@@ -38,17 +19,27 @@ app.get("/info", (_, response) => {
 });
 
 app.get("/api/persons", (_, response) => {
-  return response.json(notes);
+  return response.json(personRepository);
+});
+
+app.post("/api/persons", (request, response) => {
+  const body = /** @type {Types.PersonDTO} */ (request.body);
+
+  let errors = personRepository.validator(body);
+  if (errors !== null) {
+    return response.status(400).json(errors);
+  }
+  response.status(201).json(personRepository.create(body));
 });
 
 app.get("/api/persons/:id", (request, response) => {
-  const note = notes.find((n) => n.id.toString() === request.params.id);
+  const note = personRepository.findById(request.params.id);
   return note ? response.json(note) : response.status(404).end();
 });
 
 app.delete("/api/persons/:id", (request, response) => {
-  notes = notes.filter((n) => n.id.toString() !== request.params.id)
-  return response.status(204).end()
+  personRepository.deleteById(request.params.id);
+  return response.status(204).end();
 });
 
 app.listen(3001);
