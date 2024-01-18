@@ -1,10 +1,13 @@
 import express from "express";
+import morgan from "morgan";
 import personRepository from "./src/persons/person.js";
 import * as Types from "./src/persons/types.js"
 
 const app = express();
 
 app.use(express.json());
+
+app.use(morgan("tiny"));
 
 app.get("/info", (_, response) => {
   return response.send(`
@@ -19,7 +22,7 @@ app.get("/info", (_, response) => {
 });
 
 app.get("/api/persons", (_, response) => {
-  return response.json(personRepository);
+  return response.json(personRepository.persons);
 });
 
 app.post("/api/persons", (request, response) => {
