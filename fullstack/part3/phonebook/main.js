@@ -1,13 +1,21 @@
 import express from "express";
 import morgan from "morgan";
 import personRepository from "./src/persons/person.js";
-import * as Types from "./src/persons/types.js"
+import * as Types from "./src/persons/types.js";
 
 const app = express();
 
 app.use(express.json());
 
-app.use(morgan("tiny"));
+morgan.token("body", (/** @type {express.Request} */ request) => {
+  if (request.method === "POST") {
+    return JSON.stringify(request.body);
+  }
+});
+
+app.use(
+  morgan(":method :url :status :res[content-length] - :response-time ms :body"),
+);
 
 app.get("/info", (_, response) => {
   return response.send(`
