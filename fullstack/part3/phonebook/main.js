@@ -4,7 +4,7 @@ const app = express();
 
 app.use(express.json());
 
-const NOTES = [
+let notes = [
   {
     id: 1,
     name: "Arto Hellas",
@@ -30,7 +30,7 @@ const NOTES = [
 app.get("/info", (_, response) => {
   return response.send(`
     <div>
-      <div>Phonebook has info for ${NOTES.length} people</div>
+      <div>Phonebook has info for ${notes.length} people</div>
       <br />
       <div>${new Date()}</div>
     </div>
@@ -38,12 +38,17 @@ app.get("/info", (_, response) => {
 });
 
 app.get("/api/persons", (_, response) => {
-  return response.json(NOTES);
+  return response.json(notes);
 });
 
 app.get("/api/persons/:id", (request, response) => {
-  const note = NOTES.find((n) => n.id.toString() === request.params.id);
+  const note = notes.find((n) => n.id.toString() === request.params.id);
   return note ? response.json(note) : response.status(404).end();
+});
+
+app.delete("/api/persons/:id", (request, response) => {
+  notes = notes.filter((n) => n.id.toString() !== request.params.id)
+  return response.status(204).end()
 });
 
 app.listen(3001);
