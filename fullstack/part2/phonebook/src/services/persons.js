@@ -1,7 +1,7 @@
 import * as Types from "../types";
 import axios from "axios";
 
-const baseUrl = "http://localhost:3001/persons";
+const baseUrl = "/api/persons";
 
 /** @type {number[]} */
 let ids = [];

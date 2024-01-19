@@ -31,6 +31,11 @@ const personRepository = {
       name: "Mary Poppendieck",
       number: "39-23-6423122",
     },
+    {
+      id: 5,
+      name: "Diego Duterte",
+      number: "55-83-6423122",
+    },
   ],
   validator: function (personDTO) {
     const errors = /** @type {Types.PersonError} */ ({});

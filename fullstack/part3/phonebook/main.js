@@ -1,3 +1,4 @@
+import cors from "cors";
 import express from "express";
 import morgan from "morgan";
 import personRepository from "./src/persons/person.js";
@@ -6,6 +7,8 @@ import * as Types from "./src/persons/types.js";
 const app = express();
 
 app.use(express.json());
+
+app.use(cors())
 
 morgan.token("body", (/** @type {express.Request} */ request) => {
   if (request.method === "POST") {
