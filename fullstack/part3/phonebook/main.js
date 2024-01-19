@@ -27,26 +27,22 @@ app.use(
 );
 
 app.get("/info", async (_, response) => {
-  personRepository.model
-    .find()
-    .estimatedDocumentCount()
-    .then((/** @type {number} */ count) => {
-      return response.send(`
-        <div>
-          <div>Phonebook has info for ${count} people</div>
-          <br />
-          <div>${new Date()}</div>
-        </div>
-      `);
-    });
+  const count = await personRepository.model.find().estimatedDocumentCount();
+
+  return response.send(`
+    <div>
+      <div>Phonebook has info for ${count} people</div>
+      <br />
+      <div>${new Date()}</div>
+    </div>
+  `);
 });
 
 app.get("/api/persons", async (_, response) => {
-  personRepository.model
-    .find()
-    .then((/** @type {typeof personRepository.model[]} */ persons) => {
-      return response.json(persons);
-    });
+  /** @type {typeof personRepository.model[]} */
+  const persons = await personRepository.model.find();
+
+  return response.json(persons);
 });
 
 app.post("/api/persons", async (request, response) => {
@@ -57,10 +53,9 @@ app.post("/api/persons", async (request, response) => {
     return response.status(400).json(errors);
   }
 
-  const newPerson = new personRepository.model(body);
-
   try {
-    const savedPerson = await newPerson.save();
+    /** @type {typeof personRepository.model} */
+    const savedPerson = await (new personRepository.model(body)).save();
     return response.status(201).json(savedPerson);
   } catch (e) {
     return response.status(500).json(e);
@@ -68,9 +63,11 @@ app.post("/api/persons", async (request, response) => {
 });
 
 app.get("/api/persons/:id", async (request, response) => {
+  /** @type {typeof personRepository.model | null} */
   const person = await personRepository.model.findById(
     new mongoose.Types.ObjectId(request.params.id),
   );
+
   return person ? response.json(person) : response.status(404).end();
 });
 

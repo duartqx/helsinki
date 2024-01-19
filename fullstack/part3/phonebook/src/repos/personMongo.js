@@ -8,7 +8,7 @@ const personSchema = new mongoose.Schema({
 
 personSchema.set("toJSON", {
   transform: (_, returnedObject) => {
-    returnedObject.id = returnedObject._id;
+    returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
     delete returnedObject.__v;
   },
