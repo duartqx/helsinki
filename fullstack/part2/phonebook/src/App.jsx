@@ -15,17 +15,15 @@ import { useEffect, useState } from "react";
  **/
 
 const App = () => {
-  /** @type {Types.Person[]} */
-  let initialPersonState = []; // Stops jsdoc warnings
-
-  const [persons, setPersons] = useState(initialPersonState);
+  
+  const [persons, setPersons] = useState(/** @type {Types.Person[]} */ ([]));
   const [newName, setNewName] = useState("");
   const [newPhone, setNewPhone] = useState("");
   const [filter, setFilter] = useState("");
 
   /** @type {[
-   * Types.StatusObject,
-   * React.Dispatch<React.SetStateAction<Types.StatusObject>>
+   *   Types.StatusObject,
+   *   React.Dispatch<React.SetStateAction<Types.StatusObject>>
    * ]}
    **/
   const [statusAlert, setStatusAlert] = useState({});

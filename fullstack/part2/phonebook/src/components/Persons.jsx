@@ -17,7 +17,7 @@ const DeleteButton = ({ handleDelete }) => {
 const Person = ({ person, deletePersonHandler }) => {
   return (
     <tr className="align-middle">
-      <th scope="row">{person.id}</th>
+      <th>{person.id}</th>
       <td>{person.name}</td>
       <td>{person.number}</td>
       <td><DeleteButton handleDelete={deletePersonHandler} /></td>
