@@ -55,8 +55,11 @@ app.post("/api/persons", async (request, response) => {
 });
 
 app.get("/api/persons/:id", async (request, response) => {
-  const person = await personRepository.findById(request.params.id);
   try {
+    if (!personRepository.isValidId(request.params.id)) {
+      return response.status(400).end();
+    }
+    const person = await personRepository.findById(request.params.id);
     return person ? response.json(person) : response.status(404).end();
   } catch (err) {
     return response.status(500).end();
@@ -64,8 +67,15 @@ app.get("/api/persons/:id", async (request, response) => {
 });
 
 app.delete("/api/persons/:id", async (request, response) => {
-  await personRepository.deleteById(request.params.id);
-  return response.status(204).end();
+  try {
+    if (!personRepository.isValidId(request.params.id)) {
+      return response.status(400).end();
+    }
+    await personRepository.deleteById(request.params.id);
+    return response.status(204).end();
+  } catch {
+    return response.status(500).end();
+  }
 });
 
 app.listen(3001);

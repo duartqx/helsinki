@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 
 /**
  * @typedef {mongoose.Model<{
+ *    _id?: mongoose.Types.ObjectId
+ *    id?: string
  *    number?: string | null | undefined;
  *    name?: string | null | undefined;
  *    }>
@@ -30,9 +32,10 @@ const PersonModel = mongoose.model("Person", personSchema);
  *   model: typeof PersonModel
  *   count: () => Promise<number>
  *   filter: (f?: Object) => Promise<Person[]>
- *   create: (personDTO: Types.PersonDTO) => Promise<Person>
+ *   create: (personDTO: Types.PersonDTO) => Promise<mongoose.Document<any, any, Person>>
  *   findById: (id: number | string) => Promise<Person | null>
  *   deleteById: (id: number | string) => Promise<boolean>
+ *   isValidId: (id: number | string) => boolean
  *   validator: (personDTO: Types.PersonDTO) => Promise<Types.PersonError | null>
  * }}
  **/
@@ -56,6 +59,13 @@ const personRepository = {
         _id: new mongoose.Types.ObjectId(id),
       })
       .then(() => true);
+  },
+  isValidId: function (id) {
+    try {
+      return Boolean(new mongoose.Types.ObjectId(id));
+    } catch (e) {
+      return false;
+    }
   },
   validator: async function (personDTO) {
     const errors = /** @type {Types.PersonError} */ ({});
