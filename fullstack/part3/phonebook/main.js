@@ -57,7 +57,7 @@ app.post("/api/persons", async (request, response) => {
 app.get("/api/persons/:id", async (request, response) => {
   try {
     if (!personRepository.isValidId(request.params.id)) {
-      return response.status(400).end();
+      return response.status(400).send({ error: "Malformed Id" });
     }
     const person = await personRepository.findById(request.params.id);
     return person ? response.json(person) : response.status(404).end();
@@ -69,7 +69,7 @@ app.get("/api/persons/:id", async (request, response) => {
 app.delete("/api/persons/:id", async (request, response) => {
   try {
     if (!personRepository.isValidId(request.params.id)) {
-      return response.status(400).end();
+      return response.status(400).send({ error: "Malformed Id" });
     }
     await personRepository.deleteById(request.params.id);
     return response.status(204).end();
