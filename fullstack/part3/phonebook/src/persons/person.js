@@ -1,4 +1,4 @@
-import * as Types from "./types.js"
+import * as Types from "./types.js";
 
 /**
  * @type {{
@@ -69,7 +69,6 @@ const personRepository = {
     return this.persons.find((n) => n.id.toString() === id.toString());
   },
   deleteById: function (id) {
-
     let found = false;
 
     this.persons = this.persons.filter((n) => {

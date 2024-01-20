@@ -4,7 +4,6 @@ import morgan from "morgan";
 import { connect } from "./src/repos/connect.js";
 import personRepository from "./src/repos/personMongo.js";
 import * as Types from "./src/persons/types.js";
-import mongoose from "mongoose";
 
 const app = express();
 
@@ -27,8 +26,7 @@ app.use(
 );
 
 app.get("/info", async (_, response) => {
-  const count = await personRepository.model.find().estimatedDocumentCount();
-
+  const count = await personRepository.count();
   return response.send(`
     <div>
       <div>Phonebook has info for ${count} people</div>
@@ -39,23 +37,17 @@ app.get("/info", async (_, response) => {
 });
 
 app.get("/api/persons", async (_, response) => {
-  /** @type {typeof personRepository.model[]} */
-  const persons = await personRepository.model.find();
-
-  return response.json(persons);
+  return response.json(await personRepository.filter());
 });
 
 app.post("/api/persons", async (request, response) => {
   const body = /** @type {Types.PersonDTO} */ (request.body);
-
   let errors = await personRepository.validator(body);
   if (errors !== null) {
     return response.status(400).json(errors);
   }
-
   try {
-    /** @type {typeof personRepository.model} */
-    const savedPerson = await (new personRepository.model(body)).save();
+    const savedPerson = await personRepository.create(body);
     return response.status(201).json(savedPerson);
   } catch (e) {
     return response.status(500).json(e);
@@ -63,18 +55,16 @@ app.post("/api/persons", async (request, response) => {
 });
 
 app.get("/api/persons/:id", async (request, response) => {
-  /** @type {typeof personRepository.model | null} */
-  const person = await personRepository.model.findById(
-    new mongoose.Types.ObjectId(request.params.id),
-  );
-
-  return person ? response.json(person) : response.status(404).end();
+  const person = await personRepository.findById(request.params.id);
+  try {
+    return person ? response.json(person) : response.status(404).end();
+  } catch (err) {
+    return response.status(500).end();
+  }
 });
 
 app.delete("/api/persons/:id", async (request, response) => {
-  await personRepository.model.deleteOne({
-    _id: new mongoose.Types.ObjectId(request.params.id),
-  });
+  await personRepository.deleteById(request.params.id);
   return response.status(204).end();
 });
 

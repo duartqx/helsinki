@@ -7,6 +7,7 @@
   "scripts": {
     "run": "node main.js",
     "dev": "nodemon main.js",
+    "fmt": "prettier '!**/dist/**' --tab-width 2 -w . ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Diego Duarte",
