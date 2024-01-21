@@ -1,4 +1,4 @@
-import * as Types from "./src/persons/types.js";
+import * as Types from "./src/persons/types.js"; // eslint-disable-line no-unused-vars
 import cors from "cors";
 import errRes from "./errors.js";
 import express from "express";

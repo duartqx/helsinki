@@ -1,4 +1,5 @@
-import * as Types from "../persons/types.js";
+import * as Types from "../persons/types.js"; // eslint-disable-line no-unused-vars
+
 import mongoose from "mongoose";
 
 /**
@@ -44,7 +45,7 @@ const PersonModel = mongoose.model("Person", personSchema);
 
 /**
  * @type {{
- *   model: typeof PersonModel
+ *   Model: typeof PersonModel
  *   count: () => Promise<number>
  *   filter: (f?: Object) => Promise<Person[]>
  *   create: (personDTO: Types.PersonDTO) => Promise<mongoose.Document<any, any, Person>>
@@ -56,28 +57,26 @@ const PersonModel = mongoose.model("Person", personSchema);
  * }}
  **/
 const personRepository = {
-  model: PersonModel,
+  Model: PersonModel,
   count: async function () {
-    return this.model.find().estimatedDocumentCount();
+    return this.Model.find().estimatedDocumentCount();
   },
   filter: async function (f) {
-    return f ? this.model.find(f) : this.model.find();
+    return f ? this.Model.find(f) : this.Model.find();
   },
   create: async function (personDTO) {
-    return new this.model(personDTO).save();
+    return new this.Model(personDTO).save();
   },
   findById: async function (id) {
-    return this.model.findById(new mongoose.Types.ObjectId(id));
+    return this.Model.findById(new mongoose.Types.ObjectId(id));
   },
   deleteById: async function (id) {
-    return this.model
-      .deleteOne({
-        _id: new mongoose.Types.ObjectId(id),
-      })
-      .then(() => true);
+    return this.Model.deleteOne({
+      _id: new mongoose.Types.ObjectId(id),
+    }).then(() => true);
   },
   updateById: function (id, personDTO) {
-    return this.model.findByIdAndUpdate(
+    return this.Model.findByIdAndUpdate(
       new mongoose.Types.ObjectId(id),
       personDTO,
       { new: true },
@@ -92,13 +91,13 @@ const personRepository = {
   },
   validator: async function (personDTO, option) {
     const validateUnique = async (/** @type {string | undefined} */ name) => {
-      const personExists = await this.model.findOne({
+      const personExists = await this.Model.findOne({
         name: { $regex: new RegExp(`^${personDTO.name}$`), $options: "i" },
       });
       return personExists ? "Name must be unique" : undefined;
     };
 
-    const validation = new this.model(personDTO).validateSync();
+    const validation = new this.Model(personDTO).validateSync();
 
     const errors = /** @type {Types.PersonError} */ ({});
 

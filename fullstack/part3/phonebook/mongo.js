@@ -9,7 +9,7 @@ const password = process.argv[2];
 
 const connStr =
   `mongodb+srv://amandadesaothome:${password}@` +
-  `cluster0helsinkiphoneap.fl76l8l.mongodb.net/?retryWrites=true&w=majority`;
+  "cluster0helsinkiphoneap.fl76l8l.mongodb.net/?retryWrites=true&w=majority";
 
 mongoose.set("strictQuery", false);
 mongoose.connect(connStr);
@@ -25,10 +25,7 @@ const name = process.argv[3];
 const number = process.argv[4];
 
 if (name && number) {
-  const person = new Person({
-    name: name,
-    number: number,
-  });
+  const person = new Person({ name, number });
   person.save().then((p) => {
     console.log(`Added "${p.name}" number "${p.number}" to phonebook`);
     mongoose.connection.close();
@@ -36,7 +33,7 @@ if (name && number) {
 } else {
   Person.find({}).then((persons) => {
     console.log("Phonebook:");
-    for (let p of persons) {
+    for (const p of persons) {
       console.log(p.name, p.number);
     }
     mongoose.connection.close();

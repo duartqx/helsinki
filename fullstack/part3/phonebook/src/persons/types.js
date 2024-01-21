@@ -19,6 +19,6 @@
  * }} PersonError
  **/
 
-import mongoose from "mongoose";
+import mongoose from "mongoose"; // eslint-disable-line no-unused-vars
 
 export const _ = {};
