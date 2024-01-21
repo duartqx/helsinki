@@ -8,7 +8,16 @@
 
 /** @typedef {{ name?: string, number?: string }} PersonDTO **/
 
-/** @typedef {{ name?: string, number?: string, unique?: string }} PersonError **/
+/**
+ * @typedef {{
+ *   name?: string,
+ *   nameLength?: string,
+ *   number?: string,
+ *   numberLength?: string,
+ *   numberFormat?: string,
+ *   unique?: string
+ * }} PersonError
+ **/
 
 import mongoose from "mongoose";
 

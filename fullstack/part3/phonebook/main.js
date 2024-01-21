@@ -50,8 +50,8 @@ app.post("/api/persons", async (request, response, next) => {
   try {
     const savedPerson = await personRepository.create(body);
     return response.status(201).json(savedPerson);
-  } catch {
-    return next(errRes.notFound());
+  } catch (e) {
+    return next(errRes.validationError(e));
   }
 });
 
@@ -82,14 +82,12 @@ app.delete("/api/persons/:id", async (request, response, next) => {
 app.put("/api/persons/:id", async (request, response, next) => {
   try {
     if (!personRepository.isValidId(request.params.id)) {
-      console.log("malformed");
       return next(errRes.malformedIdError());
     }
 
     const body = /** @type {Types.PersonDTO} */ (request.body);
     const errors = await personRepository.validator(body, { unique: false });
     if (errors !== null) {
-      console.log("errors", errors);
       return response.status(400).json(errors);
     }
 

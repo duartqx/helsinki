@@ -5,15 +5,30 @@ import mongoose from "mongoose";
  * @typedef {mongoose.Model<{
  *    _id?: mongoose.Types.ObjectId
  *    id?: string
- *    number?: string | null | undefined;
- *    name?: string | null | undefined;
+ *    number: string
+ *    name: string
  *    }>
  *  } Person
  **/
 
 const personSchema = new mongoose.Schema({
-  name: String,
-  number: String,
+  name: {
+    type: String,
+    minLength: [5, "Name must have at least 5 characters"],
+    required: [true, "Name required"],
+  },
+  number: {
+    type: String,
+    minLength: [8, "Number too short"],
+    required: [true, "Phone number required"],
+    validate: {
+      validator: (/** @type {string} */ number) => {
+        return number.length >= 8 && /^\d{2,3}-\d+$/.test(number);
+      },
+      message: (/** @type {any} */ props) =>
+        `${props.value} is not a valid phone number (Valid Ex: '090-2839283')`,
+    },
+  },
 });
 
 personSchema.set("toJSON", {
@@ -76,23 +91,26 @@ const personRepository = {
     }
   },
   validator: async function (personDTO, option) {
+    const validateUnique = async (/** @type {string | undefined} */ name) => {
+      const personExists = await this.model.findOne({
+        name: { $regex: new RegExp(`^${personDTO.name}$`), $options: "i" },
+      });
+      return personExists ? "Name must be unique" : undefined;
+    };
+
+    const validation = new this.model(personDTO).validateSync();
+
     const errors = /** @type {Types.PersonError} */ ({});
 
-    if (!personDTO.name) {
-      errors.name = "Name is required";
-    }
-    if (!personDTO.number) {
-      errors.number = "Number is required";
+    for (const key in validation?.errors || {}) {
+      const value = (validation?.errors || {})[key];
+      if (value) {
+        errors[key] = value.message;
+      }
     }
 
     if (option?.unique) {
-      let person = await this.model.findOne({
-        name: { $regex: new RegExp(`^${personDTO.name}$`), $options: "i" },
-      });
-
-      if (person) {
-        errors.unique = "Name must be unique";
-      }
+      errors.unique = await validateUnique(personDTO.name);
     }
 
     return errors.name || errors.number || errors.unique ? errors : null;
