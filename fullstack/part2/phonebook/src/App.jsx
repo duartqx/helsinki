@@ -15,18 +15,14 @@ import { useEffect, useState } from "react";
  **/
 
 const App = () => {
-  
   const [persons, setPersons] = useState(/** @type {Types.Person[]} */ ([]));
   const [newName, setNewName] = useState("");
   const [newPhone, setNewPhone] = useState("");
   const [filter, setFilter] = useState("");
 
-  /** @type {[
-   *   Types.StatusObject,
-   *   React.Dispatch<React.SetStateAction<Types.StatusObject>>
-   * ]}
-   **/
-  const [statusAlert, setStatusAlert] = useState({});
+  const [statusAlert, setStatusAlert] = useState(
+    /** @type {Types.StatusObject[]} */ ([]),
+  );
 
   useEffect(() => {
     personsService.allPersons().then((initPersons) => setPersons(initPersons));
@@ -41,18 +37,28 @@ const App = () => {
       : persons;
   };
 
-  /** @param {Types.StatusObject} statusObj */
-  const setAlertStatus = (statusObj) => {
-    setStatusAlert(statusObj);
-    setTimeout(() => setStatusAlert({}), 5000);
+  /** @param {Types.StatusObject[]} statuses */
+  const setAlertStatus = (statuses) => {
+    setStatusAlert(statusAlert.concat(statuses));
+
+    statuses.map((status) =>
+      setTimeout(
+        () =>
+          setStatusAlert(
+            statusAlert.filter((s) => s.message !== status.message),
+          ),
+        7000,
+      ),
+    );
   };
 
   /** @type {Types.DeletePerson} */
   const deletePersonHandler = (person) => () => {
     if (window.confirm(`Delete ${person.name} ?`)) {
-      personsService.deletePerson(person).then((statusObj) => {
-        setAlertStatus(statusObj);
-        if (statusObj.success) {
+      personsService.deletePerson(person).then((status) => {
+        setAlertStatus([status]);
+
+        if (status.success) {
           setPersons(() => persons.filter((p) => p.id !== person.id));
         }
       });
@@ -66,46 +72,57 @@ const App = () => {
     const useCases = {
       /** @param {Types.Person} person @param {number} personExistsIndex */
       personExistsAndConfirmedForUpdate: (person, personExistsIndex) => {
-        personsService.updatePerson(person).then((p) => {
-          if (p) {
+        personsService.updatePerson(person).then((response) => {
+          if (response.success) {
             const personsCopy = [...persons];
 
-            personsCopy[personExistsIndex] = p;
+            personsCopy[personExistsIndex] = response.data[0];
 
             setPersons(() => personsCopy);
 
-            setAlertStatus({
-              success: true,
-              status: "success",
-              message: `Successfully updated ${person.name}`,
-            });
+            setAlertStatus([
+              {
+                success: true,
+                status: "success",
+                message: `Successfully updated ${person.name}`,
+              },
+            ]);
           } else {
-            setAlertStatus({
-              success: false,
-              status: "danger",
-              message: `Failed to update ${person.name}`,
-            });
+            setAlertStatus(
+              response.data.map((s) => {
+                return {
+                  success: false,
+                  status: "danger",
+                  message: s,
+                };
+              }),
+            );
           }
           setNewName("");
           setNewPhone("");
         });
       },
       personDoesNotExistsSoCreate: (/** @type {Types.Person} */ person) => {
-        personsService.createPerson(person).then((p) => {
-          if (p) {
-            setPersons(() => persons.concat(p));
-
-            setAlertStatus({
-              success: true,
-              status: "success",
-              message: `Successfully created ${person.name}`,
-            });
+        personsService.createPerson(person).then((response) => {
+          if (response.success) {
+            setPersons(() => persons.concat(response.data));
+            setAlertStatus([
+              {
+                success: true,
+                status: "success",
+                message: `Successfully created ${person.name}`,
+              },
+            ]);
           } else {
-            setAlertStatus({
-              success: false,
-              status: "danger",
-              message: `Failed to create ${person.name}`,
-            });
+            setAlertStatus(
+              response.data.map((s) => {
+                return {
+                  success: false,
+                  status: "danger",
+                  message: s,
+                };
+              }),
+            );
           }
           setNewName("");
           setNewPhone("");
@@ -174,7 +191,11 @@ const App = () => {
 
   return (
     <div className="my-5">
-      {statusAlert?.message && <Alert alertObj={statusAlert} />}
+      <div className="alerts">
+        {statusAlert.map((s) => (
+          <Alert alertObj={s} key={`alert_${s.message?.replace(" ", "")}`} />
+        ))}
+      </div>
       <h2 className="px-5">Phonebook</h2>
       <FilterPersons
         onChange={(e) => {

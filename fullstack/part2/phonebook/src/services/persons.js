@@ -27,45 +27,41 @@ const allPersons = async () => {
 
 /**
  * @param {Types.Person} person
- * @returns {Promise<Types.Person | null>}
+ * @returns {Promise<{ success: boolean, data: any[] }>}
  **/
 const createPerson = async (person) => {
   const newPerson = { ...person, id: getNextId().toString() };
   return axios
     .post(baseUrl, newPerson)
-    .then((res) => res.data)
-    .catch((_) => null);
+    .then((res) => { return { success: true, data: [res.data] } })
+    .catch((e) => { return { success: false, data: Object.values(e.response.data) } });
 };
 
-/** @returns {Promise<Types.StatusObject>} */
+/** @returns {Promise<{ success: boolean, data: any[] }>} */
 const deletePerson = async (/** @type {Types.Person} */ person) => {
   return axios
     .delete(`${baseUrl}/${person.id}`)
     .then((_) => {
-      return {
-        message: `Successfully deleted ${person.name}`,
-        status: "success",
-        success: true,
-      };
+      return { success: true, data: [`Successfully deleted ${person.name}`]}
     })
     .catch((_) => {
-      return {
-        message: `Could not delete ${person.name}`,
-        status: "danger",
-        success: true,
-      };
+      return { success: false, data: [`Could not delete ${person.name}`]}
     });
 };
 
 /**
  * @param {Types.Person} person
- * @returns {Promise<Types.Person | null>}
+ * @returns {Promise<{ success: boolean, data: any[] }>}
  **/
 const updatePerson = async (person) => {
   return axios
     .put(`${baseUrl}/${person.id}`, person)
-    .then((res) => res.data)
-    .catch((_) => null);
+    .then((_) => {
+      return { success: true, data: [`Successfully updated ${person.name}`]}
+    })
+    .catch((_) => {
+      return { success: false, data: [`Could not update ${person.name}`]}
+    });
 };
 
 export default { allPersons, createPerson, updatePerson, deletePerson };
