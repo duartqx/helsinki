@@ -35,8 +35,9 @@ const PersonModel = mongoose.model("Person", personSchema);
  *   create: (personDTO: Types.PersonDTO) => Promise<mongoose.Document<any, any, Person>>
  *   findById: (id: number | string) => Promise<Person | null>
  *   deleteById: (id: number | string) => Promise<boolean>
+ *   updateById: (id: number | string, person: Types.Person) => Promise<mongoose.Document<any, any, Person>>
  *   isValidId: (id: number | string) => boolean
- *   validator: (personDTO: Types.PersonDTO) => Promise<Types.PersonError | null>
+ *   validator: (personDTO: Types.PersonDTO, option?: { unique: boolean }) => Promise<Types.PersonError | null>
  * }}
  **/
 const personRepository = {
@@ -60,6 +61,13 @@ const personRepository = {
       })
       .then(() => true);
   },
+  updateById: function (id, personDTO) {
+    return this.model.findByIdAndUpdate(
+      new mongoose.Types.ObjectId(id),
+      personDTO,
+      { new: true },
+    );
+  },
   isValidId: function (id) {
     try {
       return Boolean(new mongoose.Types.ObjectId(id));
@@ -67,8 +75,9 @@ const personRepository = {
       return false;
     }
   },
-  validator: async function (personDTO) {
+  validator: async function (personDTO, option) {
     const errors = /** @type {Types.PersonError} */ ({});
+
     if (!personDTO.name) {
       errors.name = "Name is required";
     }
@@ -76,12 +85,14 @@ const personRepository = {
       errors.number = "Number is required";
     }
 
-    let person = await this.model.findOne({
-      name: { $regex: new RegExp(`^${personDTO.name}$`), $options: "i" },
-    });
+    if (option?.unique) {
+      let person = await this.model.findOne({
+        name: { $regex: new RegExp(`^${personDTO.name}$`), $options: "i" },
+      });
 
-    if (person) {
-      errors.unique = "Name must be unique";
+      if (person) {
+        errors.unique = "Name must be unique";
+      }
     }
 
     return errors.name || errors.number || errors.unique ? errors : null;
