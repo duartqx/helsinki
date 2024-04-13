@@ -21,4 +21,6 @@ const favoriteBlog = (blogs) => {
   return blogs.length !== 0 ? blogs.reduce(reducer, null) : null;
 };
 
+const mostBlog = (blogs) => {};
+
 export default { dummy, totalLikes, favoriteBlog };

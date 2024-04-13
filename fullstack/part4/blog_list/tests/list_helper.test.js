@@ -49,10 +49,27 @@ describe("favorite blog", () => {
       likes: 5,
     },
   ];
-  const result = listHelper.favoriteBlog(blogs);
-  assert.deepStrictEqual(result, {
-    title: "The favorite",
-    author: "Diego Duarte",
-    likes: 15,
+
+  test("when the favorite is the third on the array", () => {
+    const result = listHelper.favoriteBlog(blogs);
+    assert.deepStrictEqual(result, {
+      title: "The favorite",
+      author: "Diego Duarte",
+      likes: 15,
+    });
+  });
+
+  test("when the array is empty", () => {
+    const result = listHelper.favoriteBlog([]);
+    assert.deepStrictEqual(result, null);
+  });
+
+  test("when the array has only one item", () => {
+    const result = listHelper.favoriteBlog([blogs[0]]);
+    assert.deepStrictEqual(result, {
+      title: "Go To Statement Considered Harmful",
+      author: "Edsger W. Dijkstra",
+      likes: 5,
+    });
   });
 });
