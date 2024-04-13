@@ -21,6 +21,25 @@ const favoriteBlog = (blogs) => {
   return blogs.length !== 0 ? blogs.reduce(reducer, null) : null;
 };
 
-const mostBlog = (blogs) => {};
+const mostBlog = (blogs) => {
+  const result = { author: "", blogs: 0 };
+  const authorsCounter = /** @type {[key: string]: number} */ {};
 
-export default { dummy, totalLikes, favoriteBlog };
+  if (blogs.length === 0) {
+    return null;
+  }
+
+  for (let blog of blogs) {
+    const count = (authorsCounter[blog.author] || 0) + 1;
+    authorsCounter[blog.author] = count;
+
+    if (count > result.blogs) {
+      result.author = blog.author;
+      result.blogs = count;
+    }
+  }
+
+  return result;
+};
+
+export default { dummy, totalLikes, favoriteBlog, mostBlog };

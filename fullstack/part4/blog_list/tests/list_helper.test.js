@@ -1,6 +1,7 @@
 import { test, describe } from "node:test";
 import assert from "node:assert";
 import listHelper from "../utils/list_helper.js";
+import list_helper from "../utils/list_helper.js";
 
 test("dummy returns one", () => {
   const blogs = /** @type {import('../models/blog').Blog[]}*/ [];
@@ -71,5 +72,40 @@ describe("favorite blog", () => {
       author: "Edsger W. Dijkstra",
       likes: 5,
     });
+  });
+});
+
+describe("most blogs", () => {
+  const blogs = [
+    {
+      author: "Robert C. Martin",
+    },
+    {
+      author: "Robert C. Martin",
+    },
+    {
+      author: "Robert C. Martin",
+    },
+  ];
+
+  test("when there's the same author in the array three times", () => {
+    const result = listHelper.mostBlog(blogs);
+    assert.deepStrictEqual(result, {
+      author: "Robert C. Martin",
+      blogs: 3,
+    });
+  });
+
+  test("when there's only a single author", () => {
+    const result = listHelper.mostBlog([blogs[0]]);
+    assert.deepStrictEqual(result, {
+      author: "Robert C. Martin",
+      blogs: 1,
+    });
+  });
+
+  test("when the array is empty", () => {
+    const result = listHelper.mostBlog([]);
+    assert.deepStrictEqual(result, null);
   });
 });
