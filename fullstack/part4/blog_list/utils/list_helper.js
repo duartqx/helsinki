@@ -42,4 +42,25 @@ const mostBlog = (blogs) => {
   return result;
 };
 
-export default { dummy, totalLikes, favoriteBlog, mostBlog };
+const mostLikes = (blogs) => {
+  const result = { author: "", likes: 0 };
+  const likesCounter = /** @type {[key: string]: number} */ {};
+
+  if (blogs.length === 0) {
+    return null;
+  }
+
+  for (let blog of blogs) {
+    const count = (likesCounter[blog.author] || 0) + (blog.likes || 0);
+    likesCounter[blog.author] = count;
+
+    if (count > result.likes) {
+      result.author = blog.author;
+      result.likes = count;
+    }
+  }
+
+  return result;
+};
+
+export default { dummy, totalLikes, favoriteBlog, mostBlog, mostLikes };

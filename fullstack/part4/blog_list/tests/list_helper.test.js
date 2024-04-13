@@ -109,3 +109,53 @@ describe("most blogs", () => {
     assert.deepStrictEqual(result, null);
   });
 });
+
+describe("most likes", () => {
+  const blogs = [
+    {
+      author: "Edsger W. Dijkstra",
+      likes: 2,
+    },
+    {
+      author: "Edsger W. Dijkstra",
+      likes: 17,
+    },
+    {
+      author: "Robert C. Martin",
+      likes: 1,
+    },
+    {
+      author: "Robert C. Martin",
+      likes: 2,
+    },
+  ];
+
+  test("when the biggest liked author has more than one blog", () => {
+    const result = listHelper.mostLikes(blogs);
+    assert.deepStrictEqual(result, {
+      author: "Edsger W. Dijkstra",
+      likes: 19,
+    });
+  });
+
+  test("when the biggest liked author has only one blog", () => {
+    const result = listHelper.mostLikes(blogs.slice(1));
+    assert.deepStrictEqual(result, {
+      author: "Edsger W. Dijkstra",
+      likes: 17,
+    });
+  });
+
+  test("when there's only a single author and it must sum their likes", () => {
+    const result = listHelper.mostLikes(blogs.slice(2));
+    assert.deepStrictEqual(result, {
+      author: "Robert C. Martin",
+      likes: 3,
+    });
+  });
+
+  test("when the array is empty", () => {
+    const result = listHelper.mostLikes([]);
+    assert.deepStrictEqual(result, null);
+  });
+});
