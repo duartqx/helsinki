@@ -15,4 +15,21 @@ blogSchema.set("toJSON", {
   },
 });
 
-export const Blog = mongoose.model("Blog", blogSchema);
+const Blog = mongoose.model("Blog", blogSchema);
+
+const createBlog = async (b) => {
+  if (!b.author || !b.title) {
+    throw new Error("Blogs require an author and a title!");
+  }
+
+  const blog = new Blog({
+    author: b.author,
+    title: b.title,
+    url: b.url || "",
+    likes: Number(b.likes) || 0,
+  });
+
+  return blog.save();
+};
+
+export { Blog, createBlog };

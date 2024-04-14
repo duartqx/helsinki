@@ -1,10 +1,11 @@
 import { Router } from "express";
-import { Blog } from "../models/blog.js";
+import { Blog, createBlog } from "../models/blog.js";
 
 const blogRouter = Router();
 
 blogRouter.get("/", async (_, response) => {
-  response.json(await Blog.find({})).end();
+  const blogs = await Blog.find({});
+  response.json(blogs).end();
 });
 
 blogRouter.get("/:id", async (request, response) => {
@@ -16,7 +17,7 @@ blogRouter.get("/:id", async (request, response) => {
 });
 
 blogRouter.post("/", async (request, response) => {
-  const blog = await new Blog(request.body).save();
+  const blog = await createBlog(request.body);
   response.status(201).json(blog).end();
 });
 

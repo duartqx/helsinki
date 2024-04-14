@@ -67,19 +67,22 @@ describe("api integration tests", () => {
     assert.deepStrictEqual(firstBlog, result.body);
   });
 
-  test("post blog creates a new entry in the database", async () => {
+  test("post blog creates a new entry in the database and likes defaults to 0", async () => {
     const newBlog = {
       title: "Test blog created at the test",
       author: "Diego Duarte",
       url: "blog.duartqx.com",
-      likes: 0,
     };
 
-    await api
+    const newBlogResponse = await api
       .post("/api/blogs")
       .send(newBlog)
       .expect(201)
       .expect("Content-Type", /application\/json/);
+
+    info("new blog entry", newBlogResponse.body);
+
+    assert.strictEqual(newBlogResponse.body.likes, 0);
 
     const response = await api
       .get("/api/blogs")
