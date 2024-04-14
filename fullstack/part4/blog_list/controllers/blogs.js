@@ -3,18 +3,13 @@ import { Blog } from "../models/blog.js";
 
 const blogRouter = Router();
 
-blogRouter.get("/", (_, response) => {
-  Blog.find({}).then((blogs) => {
-    response.json(blogs);
-  });
+blogRouter.get("/", async (_, response) => {
+  response.json(await Blog.find({}));
 });
 
-blogRouter.post("/", (request, response) => {
-  const blog = new Blog(request.body);
-
-  blog.save().then((result) => {
-    response.status(201).json(result);
-  });
+blogRouter.post("/", async (request, response) => {
+  const blog = await new Blog(request.body).save();
+  response.status(201).json(blog);
 });
 
 export default blogRouter;

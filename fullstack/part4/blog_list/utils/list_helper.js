@@ -63,4 +63,32 @@ const mostLikes = (blogs) => {
   return result;
 };
 
-export default { dummy, totalLikes, favoriteBlog, mostBlog, mostLikes };
+const initialBlogs = [
+  {
+    title: "First blog test",
+    author: "Diego Duarte",
+    url: "blog.duartqx.com",
+    likes: 23,
+  },
+  {
+    title: "Second blog test",
+    author: "Diego Duarte",
+    url: "blog.duartqx.com",
+    likes: 17,
+  },
+  {
+    title: "Third blog test",
+    author: "Diego Duarte",
+    url: "blog.duartqx.com/third",
+    likes: 33,
+  },
+];
+
+export default {
+  dummy,
+  totalLikes,
+  favoriteBlog,
+  mostBlog,
+  mostLikes,
+  initialBlogs,
+};
