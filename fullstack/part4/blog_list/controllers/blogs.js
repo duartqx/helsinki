@@ -5,7 +5,7 @@ const blogRouter = Router();
 
 blogRouter.get("/", async (_, response) => {
   const blogs = await Blog.find({});
-  response.json(blogs).end();
+  return response.json(blogs).end();
 });
 
 blogRouter.get("/:id", async (request, response) => {
@@ -13,12 +13,16 @@ blogRouter.get("/:id", async (request, response) => {
   if (blog?.id) {
     return response.status(200).json(blog).end();
   }
-  response.status(404).end();
+  return response.status(404).end();
 });
 
 blogRouter.post("/", async (request, response) => {
-  const blog = await createBlog(request.body);
-  response.status(201).json(blog).end();
+  try {
+    const blog = await createBlog(request.body);
+    return response.status(201).json(blog).end();
+  } catch (e) {
+    return response.status(400).send(e.message).end();
+  }
 });
 
 export default blogRouter;

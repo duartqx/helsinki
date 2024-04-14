@@ -96,6 +96,44 @@ describe("api integration tests", () => {
 
     assert(response.body.map((b) => b.title).includes(newBlog.title));
   });
+
+  test("post blog requires author, title and url", async () => {
+    const badBlogs = [
+      {
+        title: "",
+        author: "",
+        url: "",
+      },
+      {
+        title: "has title",
+        author: "",
+        url: "",
+      },
+      {
+        title: "",
+        author: "has author",
+        url: "",
+      },
+      {
+        title: "",
+        author: "",
+        url: "has.url.com",
+      },
+    ];
+
+    for (let badblog of badBlogs) {
+      await api.post("/api/blogs").send(badblog).expect(400);
+    }
+
+    await api
+      .post("/api/blogs")
+      .send({
+        title: "has title",
+        author: "has author",
+        url: "has.url.com",
+      })
+      .expect(201);
+  });
 });
 
 after(async () => {

@@ -18,14 +18,14 @@ blogSchema.set("toJSON", {
 const Blog = mongoose.model("Blog", blogSchema);
 
 const createBlog = async (b) => {
-  if (!b.author || !b.title) {
-    throw new Error("Blogs require an author and a title!");
+  if (!b.author || !b.title || !b.url) {
+    throw new Error("Blogs require an author, a title and an url!");
   }
 
   const blog = new Blog({
-    author: b.author,
-    title: b.title,
-    url: b.url || "",
+    author: b.author.toString(),
+    title: b.title.toString(),
+    url: b.url.toString(),
     likes: Number(b.likes) || 0,
   });
 
