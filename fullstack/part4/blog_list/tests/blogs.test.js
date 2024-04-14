@@ -134,6 +134,19 @@ describe("api integration tests", () => {
       })
       .expect(201);
   });
+
+  test("post deletion works", async () => {
+    const startBlogs = await api.get("/api/blogs");
+    const blog = startBlogs.body[0];
+
+    await api.delete(`/api/blogs/${blog.id}`).expect(204);
+
+    const endBlogs = await api.get("/api/blogs");
+
+    for (let b of endBlogs.body) {
+      assert.notDeepStrictEqual(blog, b);
+    }
+  });
 });
 
 after(async () => {

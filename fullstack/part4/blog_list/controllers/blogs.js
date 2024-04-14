@@ -16,6 +16,14 @@ blogRouter.get("/:id", async (request, response) => {
   return response.status(404).end();
 });
 
+blogRouter.delete("/:id", async (request, response) => {
+  const blog = await Blog.findByIdAndDelete(request.params.id);
+  if (blog !== null) {
+    return response.status(204).end();
+  }
+  return response.status(404).end();
+});
+
 blogRouter.post("/", async (request, response) => {
   try {
     const blog = await createBlog(request.body);
