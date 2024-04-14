@@ -66,6 +66,33 @@ describe("api integration tests", () => {
 
     assert.deepStrictEqual(firstBlog, result.body);
   });
+
+  test("post blog creates a new entry in the database", async () => {
+    const newBlog = {
+      title: "Test blog created at the test",
+      author: "Diego Duarte",
+      url: "blog.duartqx.com",
+      likes: 0,
+    };
+
+    await api
+      .post("/api/blogs")
+      .send(newBlog)
+      .expect(201)
+      .expect("Content-Type", /application\/json/);
+
+    const response = await api
+      .get("/api/blogs")
+      .expect(200)
+      .expect("Content-Type", /application\/json/);
+
+    assert.strictEqual(
+      response.body.length,
+      listHelper.initialBlogs.length + 1,
+    );
+
+    assert(response.body.map((b) => b.title).includes(newBlog.title));
+  });
 });
 
 after(async () => {
