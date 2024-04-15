@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 
 import app from "../app.js";
 import listHelper from "../utils/list_helper.js";
-import { Blog } from "../models/blog.js";
+import { Blog, updateBlog } from "../models/blog.js";
 import { info } from "node:console";
 
 const api = supertest(app);
@@ -135,7 +135,36 @@ describe("api integration tests", () => {
       .expect(201);
   });
 
-  test("post deletion works", async () => {
+  test("blog patch works", async () => {
+    const blogs = await api.get("/api/blogs");
+    const blog = blogs.body[blogs.body.length - 1];
+
+    blog.likes += 2;
+    blog.title += " - Updated";
+    blog.author += " - Updated";
+    blog.url += " - Updated";
+
+    const updResponse = await api
+      .patch(`/api/blogs/${blog.id}`)
+      .send(blog)
+      .expect(200);
+
+    info("Response Body: ", updResponse.body);
+
+    const updBlog = {
+      id: updResponse.body.id,
+      title: updResponse.body.title,
+      author: updResponse.body.author,
+      likes: updResponse.body.likes,
+      url: updResponse.body.url,
+    };
+
+    info("Update test\n", "Expected:", blog, "\nGot:", updBlog);
+
+    assert.deepStrictEqual(blog, updBlog);
+  });
+
+  test("blog deletion works", async () => {
     const startBlogs = await api.get("/api/blogs");
     const blog = startBlogs.body[0];
 

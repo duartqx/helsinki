@@ -32,4 +32,23 @@ const createBlog = async (b) => {
   return blog.save();
 };
 
-export { Blog, createBlog };
+const updateBlog = async (id, blog) => {
+  if (!id) {
+    throw new Error("Id to update blog is required!");
+  }
+
+  if (!blog.author || !blog.title || !blog.url) {
+    throw new Error("Blogs require an author, a title and an url!");
+  }
+
+  const updBlog = {
+    author: blog.author.toString(),
+    title: blog.title.toString(),
+    url: blog.url.toString(),
+    likes: Number(blog.likes) || 0,
+  };
+
+  return await Blog.findByIdAndUpdate(id, updBlog, { new: true });
+};
+
+export { Blog, createBlog, updateBlog };

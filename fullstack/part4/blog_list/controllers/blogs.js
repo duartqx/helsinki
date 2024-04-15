@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { Blog, createBlog } from "../models/blog.js";
+import { Blog, createBlog, updateBlog } from "../models/blog.js";
 
 const blogRouter = Router();
 
@@ -22,6 +22,15 @@ blogRouter.delete("/:id", async (request, response) => {
     return response.status(204).end();
   }
   return response.status(404).end();
+});
+
+blogRouter.patch("/:id", async (request, response) => {
+  try {
+    const blog = await updateBlog(request.params.id, request.body);
+    return response.status(200).json(blog).end();
+  } catch (e) {
+    return response.status(400).send(e.message).end();
+  }
 });
 
 blogRouter.post("/", async (request, response) => {
